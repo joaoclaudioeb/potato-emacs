@@ -87,33 +87,33 @@
   :ensure t
   :init
   (progn
-    (setq dashboard-startup-banner "~/.emacs.d/potato_logo.txt")
-    (setq dashboard-banner-logo-title "Welcome to the Potato-Verse.")
-    (setq dashboard-center-content t)
-    (setq dashboard-set-heading-icons t)
-    (setq dashboard-set-file-icons t)
-    (setq dashboard-show-shortcuts t)
-    (setq dashboard-items '((recents . 5)
-			     (projects . 5)
-                            ;(<VALUE> . 5)
-                            ;(<VALUE> . 5)
-                            ;(<VALUE> . 5)
-			     ))
-    (setq dashboard-set-navigator t)
-    (setq dashboard-navigator-buttons
+    (setq dashboard-startup-banner "~/.emacs.d/potato_logo.txt"
+      dashboard-banner-logo-title "Welcome to the Potato-Verse."
+      dashboard-center-content t
+      dashboard-set-heading-icons t
+      dashboard-set-file-icons t
+      dashboard-show-shortcuts t
+      ; <VALUE> can be replaced with, for instance, "agenda", "bookmarks", "registers"...
+      dashboard-items '((recents . 5)
+                        ;(<VALUE> . 5)    
+                        ;(<VALUE> . 5)
+                        ;(<VALUE> . 5)
+		         (projects . 5))
+      dashboard-set-navigator t
+      dashboard-navigator-buttons
       `(
          (
 	   (,(all-the-icons-faicon "github" :height 1.2 :v-adjust 0.0)
              " GitHub"
-             "Enters the users' GitHub page"
+             "Users' GitHub page"
              (lambda (&rest _) (browse-url "https://github.com/joaoclaudioeb")))
 	   (,(all-the-icons-faicon "gitlab" :height 1.2 :v-adjust 0.0)
              " GitLab"
-             "Enters the users' GitLab page"
+             "Users' GitLab page"
              (lambda (&rest _) (browse-url "https://github.com/joaoclaudioeb")))
            (,(all-the-icons-faicon "home" :height 1.2 :v-adjust 0.0)
              " Homepage"
-             "Enters the users' homepage"
+             "Users' homepage"
              (lambda (&rest _) (browse-url "https://github.com/joaoclaudioeb")))
 	   )))) 
   :config
@@ -181,3 +181,16 @@
     (setq modus-themes-region '(bg-only))
     (setq modus-themes-completions '(opinionated))))
 (load-theme 'modus-vivendi t)   
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+    '(auto-complete multiple-cursors dashboard page-break-lines all-the-icons projectile highlight-indent-guides modus-themes use-package)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

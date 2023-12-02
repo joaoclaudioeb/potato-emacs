@@ -9,3 +9,12 @@
 
 # Undo-tree save-files
 *.~undo-tree
+
+# Folders
+/auto-save-list
+/eln-cache
+/elpa
+
+# Other files
+ac-comphist.dat
+recentf
