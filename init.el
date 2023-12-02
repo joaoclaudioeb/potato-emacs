@@ -1,65 +1,82 @@
-;; Open the Emacs in fullscreen
+;; Configuring a package manager, the package.el
+(require 'package)
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+			  ("org"   . "https://orgmode.org/elpa/")
+			  ("elpa"  . "https://elpa.gnu.org/packages/")))
+(package-initialize)
+
+(defvar dependency-tree '(use-package
+                           modus-themes
+                           highlight-indent-guides
+                           projectile
+                           all-the-icons
+                           page-break-lines
+                           dashboard
+                           multiple-cursors
+                           auto-complete
+                           ))
+
+(dolist (p dependency-tree)
+  (unless (package-installed-p p)
+    (package-refresh-contents)
+    (package-install p))
+  (add-to-list 'package-selected-packages p))
+
+;; Configuring some user-related options
+(setq user-full-name "João Cláudio E. B."
+      user-mail-address "joaoclaudiobarcellos@gmail.com")
+
+;; Configuring the Emacs to open in fullscreen
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
-;; Remove startup buffer
+;; Remove the default startup screen
 (setq inhibit-startup-message t)
 
-;; Remove startup toolbar
+;; Disable some graphical elements: toolbar, menu bar, scroll bar, and tooltips
 (tool-bar-mode    -1)
 (menu-bar-mode    -1)
 (scroll-bar-mode  -1)
 (tooltip-mode     -1)
 
-;; Adding some text highlights
+;; Enable the display of line numbers
 (global-display-line-numbers-mode t)
-(column-number-mode t)
+
+;; Add and configure the text highlight
 (global-hl-line-mode t)
 (set-face-attribute 'hl-line nil :inherit nil :background "#1e2224")
-    
 
-;; Visual alerts
+;; Enable visual alerts
 (setq visible-bell t)
 
-;; Border spacing
-(set-fringe-mode 10)
+;; Configuring the border spacing
+(set-fringe-mode 5)
 
-;; Adjustments
-(global-unset-key (kbd "C-z"))                      ; Disable "C-z" command 
-(delete-selection-mode t)                           ; Selected text will be replaced
+;; Add some minor adjustments
+(global-unset-key (kbd "C-z"))                      ; Disable the "C-z" command 
+(delete-selection-mode t)                           ; Allow the selected text to be replaced
 
-(setq mouse-wheel-scroll-amount '(2 ((shift) . 1))  ; Two lines per time
-  mouse-wheel-progressive-speed nil                 ; No acceleration
-  mouse-wheel-follow-mouse 't                       ; Role the window
-  scroll-step 1)                                    ; Role one line with keyboard
-
-(global-visual-line-mode t)                         ; Visible breakline
-
-(setq backup-directory-alist `(("." . "~/.saves"))) ; Organizing backup
+(setq mouse-wheel-scroll-amount '(2 ((shift) . 1))  ; Configures mouse wheel behavior
+      mouse-wheel-progressive-speed nil            
+      mouse-wheel-follow-mouse 't                  
+      scroll-step 1)                               
+                                  
+(setq backup-directory-alist `(("." . "~/.saves"))) ; Configures the directory for the backup files
 
 ;; Define cursor type
 (setq-default cursor-type 'box)
 
 ;; Define the text font
-(global-prettify-symbols-mode t)
-(when (member "Liberation Mono" (font-family-list))
-  (set-face-attribute 'default nil :font "Liberation Mono"))
+(cond
+  ((find-font (font-spec :name "Cascadia Code"))
+    (set-frame-font "Cascadia Code-10"))
+  ((find-font (font-spec :name "Menlo"))
+    (set-frame-font "Menlo-10"))
+  ((find-font (font-spec :name "DejaVu Sans Mono"))
+    (set-frame-font "DejaVu Sans Mono-10"))
+  ((find-font (font-spec :name "Inconsolata"))
+    (set-frame-font "Inconsolata-10")))
 
-;; Package  management
-(require 'package)
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			  ("org"   . "https://orgmode.org/elpa/")
-			  ("elpa"  . "https://elpa.gnu.org/packages/")))
-
-(package-initialize)
-(unless package-archive-contents
-  (package-refresh-contents))
-
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-(require 'use-package)
-(setq use-package-always-ensure t)
-
-;; Defining and configuring the dashboard
+;; Configuring dashboard package
 (use-package projectile
   :ensure t)
 (use-package all-the-icons
@@ -98,13 +115,12 @@
              " Homepage"
              "Enters the users' homepage"
              (lambda (&rest _) (browse-url "https://github.com/joaoclaudioeb")))
-	   ))))
-  
+	   )))) 
   :config
   (page-break-lines-mode 1)
   (dashboard-setup-startup-hook))
 
-;; Use-package setup for multiple-cursors
+;; Configuring multiple-cursors package
 (use-package multiple-cursors
   :ensure t
   :bind (("C-M-c" . mc/edit-lines)
@@ -112,7 +128,7 @@
           ("C-<" . mc/mark-previous-like-this)
           ("C-c C-<" . mc/mark-all-like-this)))
 
-;; Set indentation for different modes
+;; Defining indentation for different programming languages
 (setq-default indent-tabs-mode nil)      ; Use spaces for indentation
 (setq-default c-basic-offset 4)            ; C/C++
 (setq-default python-indent-offset 4)      ; Python
@@ -123,7 +139,7 @@
 (setq-default css-indent-offset 2)         ; CSS
 (setq-default sh-basic-offset 2)           ; Shell scripts
 
-;; A simple auto-complete
+;; Configuring auto-complete package
 (use-package auto-complete
   :ensure t
   :init
@@ -131,7 +147,7 @@
     (ac-config-default)
     (global-auto-complete-mode t)))
 
-;; A simple highlighting indentation
+;; Configuring highlight-indent-guides package
 (use-package highlight-indent-guides
   :ensure t
   :config
@@ -139,18 +155,18 @@
     (setq highlight-indent-guides-method 'character)
     (setq highlight-indent-guides-character ?\┆)
     (setq highlight-indent-guides-auto-enabled nil)
-    (set-face-background 'highlight-indent-guides-odd-face "darkgray")
-    (set-face-background 'highlight-indent-guides-even-face "dimgray")
-    (set-face-foreground 'highlight-indent-guides-character-face "orange")
+    (set-face-background 'highlight-indent-guides-odd-face "#A9A9A9")
+    (set-face-background 'highlight-indent-guides-even-face "#696969")
+    (set-face-foreground 'highlight-indent-guides-character-face "#DFAF7A")
     )
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 
-;; Defining and configuring a theme
+;; Configuring modus-themes package
 (use-package modus-themes
   :ensure t
   :init
   (progn
-    ;; Set palette overrides after loading the theme
+    ; Overrides the default modus-vivendi's pallete 
     (setq modus-vivendi-palette-overrides
       '((bg-main "#191919")
          (comment "#DFAF7A")
@@ -164,20 +180,4 @@
     (setq modus-themes-mode-line '(accented))
     (setq modus-themes-region '(bg-only))
     (setq modus-themes-completions '(opinionated))))
-
 (load-theme 'modus-vivendi t)   
-
-;; Emacs autogenerated lines
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-    '(modus-vivendi-theme multiple-cursors dashboard projectile all-the-icons use-package)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
