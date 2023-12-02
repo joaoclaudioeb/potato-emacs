@@ -6,14 +6,16 @@
 (package-initialize)
 
 (defvar dependency-tree '(use-package
-                           modus-themes
-                           highlight-indent-guides
-                           projectile
                            all-the-icons
-                           page-break-lines
-                           dashboard
-                           multiple-cursors
                            auto-complete
+                           dashboard
+                           highlight-indent-guides
+                           magit
+                           multiple-cursors
+                           modus-themes
+                           page-break-lines                           
+                           projectile
+                           vterm
                            ))
 
 (dolist (p dependency-tree)
@@ -43,7 +45,7 @@
 
 ;; Add and configure the text highlight
 (global-hl-line-mode t)
-(set-face-attribute 'hl-line nil :inherit nil :background "#1e2224")
+(set-face-attribute 'hl-line nil :inherit nil :background "#1E2224")
 
 ;; Enable visual alerts
 (setq visible-bell t)
@@ -75,6 +77,20 @@
     (set-frame-font "DejaVu Sans Mono-10"))
   ((find-font (font-spec :name "Inconsolata"))
     (set-frame-font "Inconsolata-10")))
+
+;; Configuring magit package
+(use-package magit
+  :ensure t)
+
+;; Configuring the vterm package
+; To work properly, it is indicated to install the
+; libraries libtool-bin and libvterm-dev (on Debian, Ubuntu)
+; or lbvterm (on Arch, Fedora and others)
+(use-package vterm
+  :ensure t
+  :init
+  (setq vterm-always-compile-module t))
+
 
 ;; Configuring dashboard package
 (use-package projectile
@@ -180,17 +196,11 @@
     (setq modus-themes-mode-line '(accented))
     (setq modus-themes-region '(bg-only))
     (setq modus-themes-completions '(opinionated))))
-(load-theme 'modus-vivendi t)   
+(load-theme 'modus-vivendi t)
+
+;; Lines added by the Emacs itself
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-    '(auto-complete multiple-cursors dashboard page-break-lines all-the-icons projectile highlight-indent-guides modus-themes use-package)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+  '(package-selected-packages
+     '(magit auto-complete multiple-cursors dashboard page-break-lines all-the-icons projectile highlight-indent-guides modus-themes use-package)))
+
+(custom-set-faces)

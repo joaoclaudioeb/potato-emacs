@@ -14,7 +14,9 @@
 /auto-save-list
 /eln-cache
 /elpa
+/transient
 
 # Other files
 ac-comphist.dat
 recentf
+tramp
