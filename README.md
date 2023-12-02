@@ -6,3 +6,4 @@
 <p align="center">
     <img width="70%" src="https://github.com/joaoclaudioeb/potato-emacs/blob/main/img/startup_menu.png">
 </p>
+
