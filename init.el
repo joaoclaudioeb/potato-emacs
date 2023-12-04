@@ -13,6 +13,7 @@
                            magit
                            multiple-cursors
                            modus-themes
+                           ;nerd-icons
                            page-break-lines                           
                            projectile
                            vterm
@@ -85,7 +86,7 @@
 ;; Configuring the vterm package
 ; To work properly, it is indicated to install the
 ; libraries libtool-bin and libvterm-dev (on Debian, Ubuntu)
-; or lbvterm (on Arch, Fedora and others)
+; or libvterm (on Arch, Fedora and others)
 (use-package vterm
   :ensure t
   :init
@@ -96,7 +97,7 @@
 (use-package projectile
   :ensure t)
 (use-package all-the-icons
-  :ensure t)
+  :if (display-graphic-p))
 (use-package page-break-lines
   :ensure t)
 (use-package dashboard
@@ -108,6 +109,7 @@
       dashboard-center-content t
       dashboard-set-heading-icons t
       dashboard-set-file-icons t
+      dashboard-icon-type 'all-the-icons
       dashboard-show-shortcuts t
       ; <VALUE> can be replaced with, for instance, "agenda", "bookmarks", "registers"...
       dashboard-items '((recents . 5)
@@ -200,7 +202,16 @@
 
 ;; Lines added by the Emacs itself
 (custom-set-variables
-  '(package-selected-packages
-     '(magit auto-complete multiple-cursors dashboard page-break-lines all-the-icons projectile highlight-indent-guides modus-themes use-package)))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+    '(magit auto-complete multiple-cursors dashboard page-break-lines all-the-icons projectile highlight-indent-guides modus-themes use-package)))
 
-(custom-set-faces)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
