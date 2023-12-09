@@ -1,6 +1,7 @@
 ;; Configuring a package manager, the package.el
 (require 'package)
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+(setq package-archives '(("melpa-stable" . "https://stable.melpa.org/packages/")
+                          ("melpa" . "https://melpa.org/packages/")
 			  ("org"   . "https://orgmode.org/elpa/")
 			  ("elpa"  . "https://elpa.gnu.org/packages/")))
 (package-initialize)
@@ -15,7 +16,7 @@
                            multiple-cursors
                            modus-themes
                            ;nerd-icons
-                           page-break-lines                           
+                           page-break-lines                   
                            projectile
                            vterm
                            ))
@@ -177,15 +178,24 @@
     (global-auto-complete-mode t)))
 
 ;; Configuring the markdown-mode package
+(defun markdown-live-preview-window-firefox (file)
+  "Preview FILE with Firefox, to be used with `markdown-live-preview-window-function'."
+  (let ((browse-url-browser-function 'browse-url-firefox))
+    (browse-url (concat "file://" file))))
+
 (use-package markdown-mode
   :mode (("README\\.md\\'" . gfm-mode)
-          ("\\.md\\'" . markdown-mode)
+          ("\\.md\\'" . gfm-mode)
           ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command
-          (concat
-            "/usr/bin/pandoc"
-            " --from=markdown --to=html"
-            " --standalone --mathjax --highlight-style=pygments")))
+  :commands (markdown-mode gfm-mode)
+  :init
+  ;(setq markdown-command "/usr/bin/multimarkdown")
+  (setq markdown-command
+      (concat
+       "/usr/bin/pandoc"
+       " --from=gfm --to=html"
+       " --standalone --embed-resource --mathjax --highlight-style=pygments"))
+  (setq markdown-live-preview-window-function 'markdown-live-preview-window-firefox))
 
 ;; Configuring highlight-indent-guides package
 (use-package highlight-indent-guides
