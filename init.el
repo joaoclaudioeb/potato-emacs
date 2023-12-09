@@ -11,6 +11,7 @@
                            dashboard
                            highlight-indent-guides
                            magit
+                           markdown-mode
                            multiple-cursors
                            modus-themes
                            ;nerd-icons
@@ -92,31 +93,42 @@
   :init
   (setq vterm-always-compile-module t))
 
+;; Configuring all-the-icons package
+(use-package all-the-icons
+  :ensure t
+  :init
+  (unless (member "all-the-icons" (font-family-list))
+    (all-the-icons-install-fonts t)))
 
 ;; Configuring dashboard package
 (use-package projectile
   :ensure t)
-(use-package all-the-icons
-  :if (display-graphic-p))
 (use-package page-break-lines
   :ensure t)
 (use-package dashboard
   :ensure t
   :init
   (progn
-    (setq dashboard-startup-banner "~/.emacs.d/potato_logo.txt"
+    ; Configuring which widgets are displayed. Furthermore, <VALUE> can be 
+    ; replaced with, for instance, "agenda", "bookmarks", "registers"...
+    (setq dashboard-items '((recents . 5) 
+                      ;(<VALUE> . 5)    
+                      ;(<VALUE> . 5)
+                      ;(<VALUE> . 5)
+		       (projects . 5))
+      ; Configuring the menu's banner and title
+      dashboard-startup-banner "~/.emacs.d/potato_logo.txt"
       dashboard-banner-logo-title "Welcome to the Potato-Verse."
+      ; Configruing the content placement
       dashboard-center-content t
+      ; Defining the icons to be used
+      dashboard-icon-type 'all-the-icons
+      ; Configuring where the icons should be displayed
       dashboard-set-heading-icons t
       dashboard-set-file-icons t
-      dashboard-icon-type 'all-the-icons
+      ; Configuring if the shortcuts should be displayed
       dashboard-show-shortcuts t
-      ; <VALUE> can be replaced with, for instance, "agenda", "bookmarks", "registers"...
-      dashboard-items '((recents . 5)
-                        ;(<VALUE> . 5)    
-                        ;(<VALUE> . 5)
-                        ;(<VALUE> . 5)
-		         (projects . 5))
+      ; Configuring the menu's navigator
       dashboard-set-navigator t
       dashboard-navigator-buttons
       `(
@@ -133,9 +145,8 @@
              " Homepage"
              "Users' homepage"
              (lambda (&rest _) (browse-url "https://github.com/joaoclaudioeb")))
-	   )))) 
+	   ))))
   :config
-  (page-break-lines-mode 1)
   (dashboard-setup-startup-hook))
 
 ;; Configuring multiple-cursors package
@@ -164,6 +175,17 @@
   (progn
     (ac-config-default)
     (global-auto-complete-mode t)))
+
+;; Configuring the markdown-mode package
+(use-package markdown-mode
+  :mode (("README\\.md\\'" . gfm-mode)
+          ("\\.md\\'" . markdown-mode)
+          ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command
+          (concat
+            "/usr/bin/pandoc"
+            " --from=markdown --to=html"
+            " --standalone --mathjax --highlight-style=pygments")))
 
 ;; Configuring highlight-indent-guides package
 (use-package highlight-indent-guides
