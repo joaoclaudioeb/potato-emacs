@@ -1,19 +1,81 @@
+<h1 align="center">
+	POTATO EMACS
+	<br>
+</h1>
+
+# Screenshot
+
 <p align="center">
-<pre>
-     ▄▄▄·      ▄▄▄▄▄ ▄▄▄· ▄▄▄▄▄          
-    ▐█ ▄█▪     •██  ▐█ ▀█ •██  ▪         
-     ██▀· ▄█▀▄  ▐█.▪▄█▀▀█  ▐█.▪ ▄█▀▄     
-    ▐█▪·•▐█▌.▐▌ ▐█▌·▐█ ▪▐▌ ▐█▌·▐█▌.▐▌    
-    .▀    ▀█▄▀▪ ▀▀▀  ▀  ▀  ▀▀▀  ▀█▄▀▪    
-    ▄▄▄ .• ▌ ▄ ·.  ▄▄▄·  ▄▄· .▄▄ ·       
-    ▀▄.▀··██ ▐███▪▐█ ▀█ ▐█ ▌▪▐█ ▀.       
-    ▐▀▀▪▄▐█ ▌▐▌▐█·▄█▀▀█ ██ ▄▄▄▀▀▀█▄      
-    ▐█▄▄▌██ ██▌▐█▌▐█ ▪▐▌▐███▌▐█▄▪▐█      
-     ▀▀▀ ▀▀  █▪▀▀▀ ▀  ▀ ·▀▀▀  ▀▀▀▀ 
-</pre>
+    <img width="70%" src="https://github.com/joaoclaudioeb/potato-emacs/blob/main/img/potato-emacs-screenshot.png">
 </p>
 
-# Packages
+<p align="center">
+    <img alt="Static Badge" src="https://img.shields.io/badge/status-in_development-red"></a>
+    <a href="https://github.com/joaoclaudioeb/potato-emacs/releases"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/joaoclaudioeb/potato-emacs"></a>
+    <a href="https://github.com/joaoclaudioeb/potato-emacs/commits/master"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/joaoclaudioeb/potato-emacs"></a>
+    <a href="https://github.com/joaoclaudioeb/potato-emacs/issues"><img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues/joaoclaudioeb/potato-emacs"></a>
+    <a href="https://github.com/joaoclaudioeb/potato-emacs/pulls"><img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues-pr/joaoclaudioeb/potato-emacs"></a>
+    <a href="https://github.com/joaoclaudioeb/potato-emacs/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/joaoclaudioeb/potato-emacs"></a>
+</p>
+
+<details>
+    <summary><b>Summary</b></summary>
+    <ol>
+        <li>
+            <a href="#overview">Overview</a>
+        </li>
+        <li>
+            <a href="#packages">Packages</a>
+        </li>
+        <li>
+            <a href="#github-like-markdown-preview">GitHub-like markdown preview</a>
+        </li>
+        <li>
+            <a href="#minibuffer-completion">Minibuffer completion</a>
+        </li>
+        <li>
+            <a href="#git-ui">Git UI</a>
+        </li>
+        <li>
+            <a href="#terminal-emulation">Terminal emulation</a>
+        </li>
+        <li>
+            <a href="#the-dashboard">The dashboard</a>
+        </li>
+        <li>
+            <a href="#multiple-cursors">Multiple cursors</a>
+        </li>
+        <li>
+            <a href="#highlight-indentation">Highlight indentation</a>
+        </li>
+        <li>
+            <a href="#the-theme">The Theme</a>
+        </li>
+        <li>
+            <a href="#autocompletion">Autocompletion</a>
+        </li>
+        <li>
+            <a href="#repository-organization">Repository organization</a>
+        </li>
+        <li>
+            <a href="#license">License</a>
+        </li>
+        <li>
+            <a href="#releases">Releases</a>
+        </li>
+        <li>
+            <a href="#notes">Notes</a>
+        </li>
+        <li>
+            <a href="#references">References</a>
+        </li>
+    </ol>
+</details>
+
+# Overview
+TODO
+
+## Packages
 
 ``` emacs-lisp
 (require 'use-package)
@@ -29,7 +91,7 @@
 
 ```
 
-# GitHub-like markdown preview
+## GitHub-like markdown preview
 
 ``` emacs-lisp
 
@@ -57,7 +119,7 @@
     (warn "Markdown preview will not work until you set password in the '~/.authinfo' file")))
 ```
 
-# Search meachanism and minibuffer completion
+## Minibuffer completion
 
 ``` emacs-lisp
 ;; Configures ivy
@@ -88,7 +150,7 @@
 
 ```
 
-# Git UI
+## Git UI
 
 ``` emacs-lisp
 (use-package magit :ensure t
@@ -96,7 +158,7 @@
 
 ```
 
-# Terminal emulation
+## Terminal emulation
 
 ``` emacs-lisp
 
@@ -109,7 +171,7 @@
 
 ```
 
-# The dashboard
+## The dashboard
 
 ``` emacs-lisp
 
@@ -173,7 +235,7 @@
 
 ```
 
-# Multiple cursos
+## Multiple cursors
 
 ``` emacs-lisp
 (use-package multiple-cursors :ensure t
@@ -184,7 +246,7 @@
 
 ```
 
-# Highlight indentation
+## Highlight indentation
 
 ``` emacs-lisp
 (use-package indent-bars
@@ -193,7 +255,7 @@
 
 ```
 
-# The theme
+## The theme
 
 ``` emacs-lisp
 (defun load-my-theme (theme)
@@ -227,7 +289,7 @@
 
 ```
 
-# Autocompletion
+## Autocompletion
 
 ``` emacs-lisp
 (use-package company :ensure t
@@ -243,3 +305,13 @@
   (global-company-mode))
 
 ```
+# Repository organization
+TODO
+# License
+TODO
+# Releases
+TODO
+# Notes
+TODO
+# References
+TODO
