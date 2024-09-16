@@ -1,0 +1,3 @@
+[submodule "indent-bars"]
+	path = indent-bars
+	url = git@github.com:jdtsmith/indent-bars.git
