@@ -1,8 +1,11 @@
-# Compiled
+# Compiled files
 *.elc
 
 # Packaging
-.cask
+.cask/
+.eask/
+.eldev/
+.keg/
 
 # Backup files
 *~
@@ -10,13 +13,15 @@
 # Undo-tree save-files
 *.~undo-tree
 
-# Folders
-/auto-save-list
-/eln-cache
-/elpa
-/transient
+# Other Folders
+auto-save-list/
+eln-cache/
+elpa/
+transient/
+dist/
 
 # Other files
 ac-comphist.dat
 recentf
 tramp
+.mc-lists.el

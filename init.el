@@ -4,6 +4,9 @@
 (setq user-full-name "João Cláudio E. B."
   user-mail-address "joaoclaudiobarcellos@gmail.com")
 
+;; Start Emacs' server
+(server-start)
+
 ;; Configures the Emacs to open in fullscreen
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
@@ -28,7 +31,7 @@
 (set-fringe-mode 5)
 
 ;; Adds minor adjustments
-(global-unset-key (kbd "C-z"))          ; Disables the "C-z" command 
+(global-unset-key (kbd "C-z"))          ; Disables the "C-z" command
 (delete-selection-mode t)               ; Allows the selected text to be replaced
 
 ;; Configures mouse wheel behavior
@@ -68,7 +71,7 @@
 (setq-default sgml-basic-offset 2)         ; HTML
 (setq-default css-indent-offset 2)         ; CSS
 (setq-default sh-basic-offset 2)           ; Shell scripts
-
+  
 ;;; Built-in packages required
 
 ;; Ensures that the use-package macro is loaded for managing package configurations 
@@ -94,185 +97,57 @@
     (package-refresh-contents))
   :bind
   ("C-c u p" . package-refresh-contents))
+
+;; Configuração do outline-minor-mode para LaTeX
+(use-package outline :ensure nil
+  :hook (LaTeX-mode . outline-minor-mode)
+  :config
+
+  ;; extra outline headers 
+  (setq TeX-outline-extra
+    '(("chapter" 1)
+       ("section" 2)
+       ("subsection" 3)
+       ("subsubsection" 4)
+       ("paragraph" 5)))
   
+;https://emacs.stackexchange.com/questions/361/how-can-i-hide-display-latex-section-just-like-org-mode-does-with-headlines
+  (font-lock-add-keywords
+    'LaTeX-mode
+    '(("^\\(chapter\\|\\(sub\\|subsub\\)?section\\|paragraph\\)"
+        0 'font-lock-keyword-face t)
+       ("^chapter{\\(.*\\)}"       1 'font-latex-sectioning-1-face t)
+       ("^section{\\(.*\\)}"       1 'font-latex-sectioning-2-face t)
+       ("^subsection{\\(.*\\)}"    1 'font-latex-sectioning-3-face t)
+       ("^subsubsection{\\(.*\\)}" 1 'font-latex-sectioning-4-face t)
+       ("^paragraph{\\(.*\\)}"     1 'font-latex-sectioning-5-face t))))
+
+; https://emacs.stackexchange.com/questions/46930/set-prefix-key-on-load-of-minor-mode
+(with-eval-after-load "outline"
+  (define-key outline-minor-mode-map (kbd "C-o")
+    (lookup-key outline-minor-mode-map (kbd "C-c @"))))
+
 ;;; Other external package additions and configurations
+(add-to-list 'load-path "~/.emacs.d/external")
 
-;; Configures diminish
-(use-package diminish :ensure t)
+(require 'diminish-cfg)
+(require 'ivy-cfg)
+(require 'markdown-modes-cfg)
+(require 'swiper-cfg)
+(require 'magit-cfg)
+(require 'vterm-cfg)
+(require 'all-the-icons-cfg)
+(require 'dashboard-cfg)
+(require 'multiple-cursors-cfg)
+;(require 'ident-bars-cfg)
+(require 'themes-cfg)
+(require 'company-cfg)
+(require 'latex-mode-cfg)
+(require 'neotree-cfg)
+(require 'my-buffers-cfg)
 
-(use-package markdown-mode :ensure t
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-          ("\\.md\\'" . gfm-mode)
-          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "/usr/local/bin/multimarkdown"))
-
-(use-package grip-mode :ensure t
-  :init
-  (add-hook 'markdown-mode-hook #'grip-mode)
-  (setq grip-preview-use-webkit nil)
-  (setq browse-url-browser-function 'browse-url-default-browser)
-  :config
-  (setq grip-use-mdopen nil)    ; To use `mdopen` instead of `grip`
-  :bind (:map markdown-mode-command-map
-          ("g" . grip-mode)))
-
-;; Configures ivy
-(use-package ivy :ensure t
-  :diminish ivy-mode
-  :init
-  (ivy-mode)
-  :config
-  (setq ivy-use-virtual-buffers t)
-  (setq ivy-count-format "(%d/%d) ")
-  :bind
-  (("C-s" . swiper)
-    (:map ivy-minibuffer-map
-      ("TAB" . ivy-alt-done)
-      ("C-j" . ivy-next-line)
-      ("C-k" . ivy-previous-line))
-    (:map ivy-switch-buffer-map
-      ("C-k" . ivy-previous-line)
-      ("C-l" . ivy-done)
-      ("C-d" . ivy-switch-buffer-kill))
-    (:map ivy-reverse-i-search-map
-      ("C-k" . ivy-previous-line)
-      ("C-d" . ivy-reverse-i-search-kill))))
-
-;; Configures swiper
-(use-package swiper :ensure t
-  :after ivy)
-
-;; Configures magit
-(use-package magit :ensure t
-  :bind (("C-x g" . magit)))
-
-;; Configures vterm
-; To work properly, it is indicated to install the
-; libraries libtool-bin and libvterm-dev (on Debian, Ubuntu)
-; or libvterm (on Arch, Fedora and others)
-(use-package vterm :ensure t
-  :init
-  (setq vterm-always-compile-module t))
-
-;; Configures all-the-icons
-(use-package all-the-icons :ensure t
-  :init
-  (unless (member "all-the-icons" (font-family-list))
-    (all-the-icons-install-fonts t)))
-
-;; Configures dashboard
-(use-package dashboard :ensure t
-  :init
-  ; Configures which widgets are displayed.
-  (setq dashboard-items '((recents   . 5)
-                           ;(bookmarks . 5)
-                           (projects  . 5)
-                           ;(agenda    . 5)
-			   ;(registers . 5)
-			   ))
-  ; Configures the menu's banner and title
-  (setq dashboard-startup-banner "~/.emacs.d/potato_logo.txt")
-  (setq dashboard-banner-logo-title "Welcome to the Potato-Verse.")
-  ; Configures the content placement
-  (setq dashboard-center-content t)
-  (setq dashboard-vertically-center-content t)
-  ; Defines the type of icons to be used
-  (setq dashboard-icon-type 'all-the-icons)
-  ; Configures where the items icons should be displayed
-  (setq dashboard-set-heading-icons t)
-  (setq dashboard-set-file-icons t)
-  ; Configures if the items shortcuts should be displayed
-  (setq dashboard-show-shortcuts t)
-  ; Configures the menu's navigator
-  (setq dashboard-startupify-list '(dashboard-insert-banner
-                                     dashboard-insert-newline
-                                     dashboard-insert-banner-title
-                                     dashboard-insert-newline
-                                     dashboard-insert-navigator
-                                     dashboard-insert-newline
-                                     dashboard-insert-init-info
-                                     dashboard-insert-items
-                                     dashboard-insert-newline
-                                     dashboard-insert-footer))
-  ; Configures the menu's items shortcuts
-  (setq dashboard-item-shortcuts '((recents   . "r")
-                                    (bookmarks . "m")
-                                    (projects  . "p")
-                                    (agenda    . "a")
-                                    (registers . "e")))
-  ; Renames the menu's items
-  ;(setq dashboard-item-names '(("Recent Files:"               . "Recently opened files:")
-  ;                              ("Agenda for today:"           . "Today's agenda:")
-  ;                              ("Agenda for the coming week:" . "Agenda:")))
-  (setq dashboard-navigator-buttons
-    `(
-       (
-	 (,(all-the-icons-faicon "github" :height 1.2 :v-adjust 0.0)
-           "GitHub"
-           "Users' GitHub page"
-           (lambda (&rest _) (browse-url "https://github.com/joaoclaudioeb")))
-         (,(all-the-icons-faicon "home" :height 1.2 :v-adjust 0.0)
-           "Homepage"
-           "Users' homepage"
-           (lambda (&rest _) (browse-url "https://github.com/joaoclaudioeb"))))))
-  :config
-  (dashboard-setup-startup-hook))
-  
-;; Configures multiple-cursors
-(use-package multiple-cursors :ensure t
-  :bind (("C-M-c" . mc/edit-lines)
-          ("C->" . mc/mark-next-like-this)
-          ("C-<" . mc/mark-previous-like-this)
-          ("C-c C-<" . mc/mark-all-like-this)))
-
-;; Configures the indent-bars
-(use-package indent-bars
-  :load-path "~/.emacs.d/indent-bars"
-  :hook ((python-mode yaml-mode emacs-lisp-mode c-mode) . indent-bars-mode))    ; Other modes can be added here
-
-;; Configures the theme
-(defun load-my-theme (theme)
-  (cond
-    ((eq theme 'modus-vivendi)
-      ; Configures modus-themes
-      (use-package modus-themes :ensure t
-        :init
-        (setq modus-vivendi-palette-overrides
-          '((bg-main "#191919")
-             (comment "#DFAF7A")
-             (string "#2FAFFF")
-             (keyword "#70B900")
-             (name "#70B900")
-             (docstring "#DFAF7A")))
-        (setq modus-themes-bold-constructs t)
-        (setq modus-themes-italic-constructs t)
-        (setq modus-themes-mode-line '(accented))
-        (setq modus-themes-region '(bg-only))
-        (setq modus-themes-completions '(opinionated))
-        :config
-        (load-theme 'modus-vivendi t)))
-    ((eq theme 'doom-one)
-      ; Configures doom-themes
-      (use-package doom-themes :ensure t
-        :config
-        (load-theme 'doom-one t)))
-    (t
-      (error "Unknown theme: %s" theme))))
-(load-my-theme 'modus-vivendi)
-
-;; Configures company
-(use-package company :ensure t
-  :delight company-mode
-  :demand t
-  :init
-  (setq company-idle-delay 0.1)
-  (setq company-minimum-prefix-length 1)
-  :bind (:map company-active-map
-          ("C-n" . company-select-next)
-          ("C-p". company-select-previous))
-  :config
-  (global-company-mode))
+;;; Used refs.
+; https://gist.github.com/nivaca/1c8d282e9d5e60c95d59ab0e6ed11771
 
 ;;; Lines added by the Emacs itself
 (custom-set-variables
