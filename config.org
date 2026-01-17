@@ -10,6 +10,7 @@
 | [[https://emacs.stackexchange.com/questions/46930/set-prefix-key-on-load-of-minor-mode][Emacs StackExchange]] | Define key prefixes after minor mode load      |
 | [[https://gist.github.com/nivaca/1c8d282e9d5e60c95d59ab0e6ed11771][Gist]]                | Structural inspiration for this configuration  |
 
+
 * Bootstrap & core
 
 #+begin_src emacs-lisp
@@ -293,25 +294,27 @@ Defines the indentation for different programming languages:
 ** treemacs-cfg
 
 #+begin_src emacs-lisp
-(require 'treemacs-cfg)
+  (require 'treemacs-cfg)
 #+end_src
 
 ** diminish-cfg
 
 #+begin_src emacs-lisp
-(require 'diminish-cfg)
+  (require 'diminish-cfg)
 #+end_src
 
 ** ivy-cfg
 
 #+begin_src emacs-lisp
-(require 'ivy-cfg)
+  (require 'ivy-cfg)
 #+end_src
 
 ** markdown-modes-cfg
 
 #+begin_src emacs-lisp
-(require 'markdown-modes-cfg)
+  (use-package grip-mode :ensure t
+    :config (setq grip-command 'grip) ;; auto, grip, go-grip or mdopen
+    :hook ((markdown-mode org-mode) . grip-mode))
 #+end_src
 
 ** swiper-cfg
@@ -364,9 +367,15 @@ Defines the indentation for different programming languages:
 
 ** vterm-cfg
 
+Configures vterm:
+
 #+begin_src emacs-lisp
-(require 'vterm-cfg)
+  (use-package vterm :ensure t
+    :init
+    (setq vterm-always-compile-module t))
 #+end_src
+
+To work properly, it is indicated to install the libraries libtool-bin and libvterm-dev (on Debian, Ubuntu) or libvterm (on Arch, Fedora and others).
 
 ** indent-bars-cfg
 

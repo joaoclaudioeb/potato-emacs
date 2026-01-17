@@ -20,12 +20,15 @@
 - [[#notes][Notes]]
 - [[#references][References]]
 
+
 * Overview
 :PROPERTIES:
 :CUSTOM_ID: overview
 :END:
 
-This repository contains my Emacs configuration (The Potato Emacs) based on *literate programming* using Org mode.
+This repository hosts my Emacs setup, dubbed "The Potato Emacs," implemented as a literate configuration. It is not intended to be an elegant or highly optimized framework.
+
+It is simply my personal, straightforward (and arguably naive) configuration, which fully justifies its "potato" moniker. If you find it useful, you are welcome to use and enhance it.
 
 
 * Repository organization
