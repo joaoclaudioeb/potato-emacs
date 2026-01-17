@@ -8,7 +8,8 @@
         :init
         (setq modus-vivendi-palette-overrides
           '((bg-main "#191919")
-             (comment "#DFAF7A")
+             ;; (comment "#DFAF7A")
+             (comment "#FFA500")
              (string "#2FAFFF")
              (keyword "#70B900")
              (name "#70B900")

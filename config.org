@@ -1,0 +1,384 @@
+#+TITLE: Potato Emacs configuration
+#+AUTHOR: João Cláudio E. B.
+#+PROPERTY: header-args:emacs-lisp :tangle yes
+
+* References
+
+| Source              | Purpose                                        |
+|---------------------+------------------------------------------------|
+| [[https://emacs.stackexchange.com/questions/361/how-can-i-hide-display-latex-section-just-like-org-mode-does-with-headlines][Emacs StackExchange]] | Fold LaTeX sections using =outline-minor-mode= |
+| [[https://emacs.stackexchange.com/questions/46930/set-prefix-key-on-load-of-minor-mode][Emacs StackExchange]] | Define key prefixes after minor mode load      |
+| [[https://gist.github.com/nivaca/1c8d282e9d5e60c95d59ab0e6ed11771][Gist]]                | Structural inspiration for this configuration  |
+
+* Bootstrap & core
+
+#+begin_src emacs-lisp
+(setq custom-file (locate-user-emacs-file "custom.el"))
+(load custom-file 'noerror)
+#+end_src
+
+
+* Basic configurations
+
+** User information
+Configures some user-related options:
+
+#+begin_src emacs-lisp
+(setq user-full-name "João Cláudio E. B."
+      user-mail-address "joaoclaudiobarcellos@gmail.com")
+#+end_src
+
+** Server
+Start Emacs' server:
+
+#+begin_src emacs-lisp
+(server-start)
+#+end_src
+
+** Frame and startup behavior
+Configures the Emacs to open in fullscreen and skipping the startup screen:
+
+#+begin_src emacs-lisp
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+(setq inhibit-startup-message t)
+#+end_src
+
+** UI elements
+Disables some graphical elements: toolbar, menu bar, scroll bar, and tooltips:
+
+#+begin_src emacs-lisp
+(tool-bar-mode   -1)
+(menu-bar-mode   -1)
+(scroll-bar-mode -1)
+(tooltip-mode    -1)
+#+end_src
+
+** Line numbers and keybindings
+
+Enables the display of line numbers:
+
+#+begin_src emacs-lisp
+(global-display-line-numbers-mode t)
+#+end_src
+
+Makes "ESC" quit prompts:
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+#+end_src
+
+** Visual alerts and spacing
+
+Enables visual alerts:
+
+#+begin_src emacs-lisp
+(setq visible-bell t)
+#+end_src
+
+Configures the border spacing:
+
+#+begin_src emacs-lisp
+(set-fringe-mode 5)
+#+end_src
+
+** Minor adjustments
+
+Disables the "C-z" command and allows the selected text to be replaced:
+
+#+begin_src emacs-lisp
+(global-unset-key (kbd "C-z"))
+(delete-selection-mode t)
+#+end_src
+
+** Mouse and scrolling
+
+Configures mouse wheel behavior:
+
+#+begin_src emacs-lisp
+(setq mouse-wheel-scroll-amount '(2 ((shift) . 1))
+      mouse-wheel-progressive-speed nil
+      mouse-wheel-follow-mouse 't
+      scroll-step 1)
+#+end_src
+
+** Backup files
+
+Configures the directory for the backup files:
+
+#+begin_src emacs-lisp
+(setq backup-directory-alist '(("" . "~/.emacs.d/emacs_backups")))
+#+end_src
+
+** Cursor
+
+Defines cursor type:
+
+#+begin_src emacs-lisp
+(setq-default cursor-type 'box)
+#+end_src
+
+** Highlight current line
+
+Adds text highlighting and configures it:
+
+#+begin_src emacs-lisp
+(global-hl-line-mode t)
+(set-face-attribute 'hl-line nil :inherit nil :background "#1E2224")
+#+end_src
+
+** Fonts
+
+Defines the text font:
+
+#+begin_src emacs-lisp
+(cond
+ ((find-font (font-spec :name "Cascadia Code"))
+  (set-frame-font "Cascadia Code-10"))
+ ((find-font (font-spec :name "Menlo"))
+  (set-frame-font "Menlo-10"))
+ ((find-font (font-spec :name "DejaVu Sans Mono"))
+  (set-frame-font "DejaVu Sans Mono-10"))
+ ((find-font (font-spec :name "Inconsolata"))
+  (set-frame-font "Inconsolata-10")))
+#+end_src
+
+** Indentation
+
+Defines the indentation for different programming languages:
+
+#+begin_src emacs-lisp
+(setq-default indent-tabs-mode nil)        ; Use spaces for indentation
+(setq-default c-basic-offset 4)            ; C/C++
+(setq-default python-indent-offset 4)      ; Python
+(setq-default js-indent-level 2)           ; JavaScript/JSX
+(setq-default ruby-indent-level 2)         ; Ruby
+(setq-default lisp-indent-offset 2)        ; Lisp
+(setq-default sgml-basic-offset 2)         ; HTML
+(setq-default css-indent-offset 2)         ; CSS
+(setq-default sh-basic-offset 2)           ; Shell scripts
+#+end_src
+
+
+* Built-in packages required
+
+** use-package
+
+#+begin_src emacs-lisp
+(require 'use-package)
+#+end_src
+
+** auth-source
+
+#+begin_src emacs-lisp
+(use-package auth-source :ensure nil
+  :config
+  (let ((credential (auth-source-user-and-password "api.github.com")))
+    (setq grip-github-user (car credential)
+          grip-github-password (cadr credential)))
+  (if (string-equal grip-github-user "")
+      (warn "Markdown preview will not work until you set user in the '~/.authinfo' file"))
+  (if (string-equal grip-github-password "")
+      (warn "Markdown preview will not work until you set password in the '~/.authinfo' file")))
+#+end_src
+
+** package
+
+#+begin_src emacs-lisp
+(use-package package :ensure nil
+  :config
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+  (package-initialize)
+  (unless package-archive-contents
+    (package-refresh-contents))
+  :bind
+  ("C-c u p" . package-refresh-contents))
+#+end_src
+
+** outline (LaTeX)
+
+#+begin_src emacs-lisp
+(use-package outline :ensure nil
+  :hook (LaTeX-mode . outline-minor-mode)
+  :config
+  (setq TeX-outline-extra
+        '(("chapter" 1)
+          ("section" 2)
+          ("subsection" 3)
+          ("subsubsection" 4)
+          ("paragraph" 5)))
+  (font-lock-add-keywords
+   'LaTeX-mode
+   '(("^\\(chapter\\|\\(sub\\|subsub\\)?section\\|paragraph\\)"
+      0 'font-lock-keyword-face t)
+     ("^chapter{\\(.*\\)}"       1 'font-latex-sectioning-1-face t)
+     ("^section{\\(.*\\)}"       1 'font-latex-sectioning-2-face t)
+     ("^subsection{\\(.*\\)}"    1 'font-latex-sectioning-3-face t)
+     ("^subsubsection{\\(.*\\)}" 1 'font-latex-sectioning-4-face t)
+     ("^paragraph{\\(.*\\)}"     1 'font-latex-sectioning-5-face t))))
+#+end_src
+
+#+begin_src emacs-lisp
+(with-eval-after-load "outline"
+  (define-key outline-minor-mode-map (kbd "C-o")
+    (lookup-key outline-minor-mode-map (kbd "C-c @"))))
+#+end_src
+
+** nerd-icons
+
+#+begin_src emacs-lisp
+(use-package nerd-icons :ensure t)
+#+end_src
+
+** projectile
+
+#+begin_src emacs-lisp
+(use-package projectile :ensure t)
+#+end_src
+
+** s
+
+#+begin_src emacs-lisp
+(use-package s :ensure t)
+#+end_src
+
+** dash
+
+#+begin_src emacs-lisp
+(use-package dash :ensure t)
+#+end_src
+
+** ace-window
+
+#+begin_src emacs-lisp
+(use-package ace-window :ensure t)
+#+end_src
+
+** pfuture
+
+#+begin_src emacs-lisp
+(use-package pfuture :ensure t)
+#+end_src
+
+** ht
+
+#+begin_src emacs-lisp
+(use-package ht :ensure t)
+#+end_src
+
+** cfrs
+
+#+begin_src emacs-lisp
+(use-package cfrs :ensure t)
+#+end_src
+
+** hydra
+
+#+begin_src emacs-lisp
+(use-package hydra :ensure t)
+#+end_src
+
+** cl-lib
+
+#+begin_src emacs-lisp
+(use-package cl-lib :ensure t)
+#+end_src
+
+
+* "External" packages
+
+#+begin_src emacs-lisp
+(add-to-list 'load-path "~/.emacs.d/external")
+#+end_src
+
+** treemacs-cfg
+
+#+begin_src emacs-lisp
+(require 'treemacs-cfg)
+#+end_src
+
+** diminish-cfg
+
+#+begin_src emacs-lisp
+(require 'diminish-cfg)
+#+end_src
+
+** ivy-cfg
+
+#+begin_src emacs-lisp
+(require 'ivy-cfg)
+#+end_src
+
+** markdown-modes-cfg
+
+#+begin_src emacs-lisp
+(require 'markdown-modes-cfg)
+#+end_src
+
+** swiper-cfg
+
+#+begin_src emacs-lisp
+(require 'swiper-cfg)
+#+end_src
+
+** magit-cfg
+
+#+begin_src emacs-lisp
+(require 'magit-cfg)
+#+end_src
+
+** all-the-icons-cfg
+
+#+begin_src emacs-lisp
+(require 'all-the-icons-cfg)
+#+end_src
+
+** dashboard-cfg
+
+#+begin_src emacs-lisp
+(require 'dashboard-cfg)
+#+end_src
+
+** themes-cfg
+
+#+begin_src emacs-lisp
+(require 'themes-cfg)
+#+end_src
+
+** company-cfg
+
+#+begin_src emacs-lisp
+(require 'company-cfg)
+#+end_src
+
+** multiple-cursors-cfg
+
+#+begin_src emacs-lisp
+(require 'multiple-cursors-cfg)
+#+end_src
+
+** latex-mode-cfg
+
+#+begin_src emacs-lisp
+(require 'latex-mode-cfg)
+#+end_src
+
+** vterm-cfg
+
+#+begin_src emacs-lisp
+(require 'vterm-cfg)
+#+end_src
+
+** indent-bars-cfg
+
+#+begin_src emacs-lisp
+(require 'indent-bars-cfg)
+#+end_src
+
+
+* Custom buffers
+
+** my-buffers-cfg
+
+#+begin_src emacs-lisp
+(require 'my-buffers-cfg)
+#+end_src

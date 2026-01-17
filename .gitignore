@@ -1,27 +1,31 @@
-# Compiled files
-*.elc
-
-# Packaging
-.cask/
-.eask/
-.eldev/
-.keg/
-
-# Backup files
+# Emacs-related files:
 *~
-
-# Undo-tree save-files
-*.~undo-tree
-
-# Other Folders
-auto-save-list/
-eln-cache/
-elpa/
-transient/
-dist/
-
-# Other files
-ac-comphist.dat
-recentf
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
 tramp
-.mc-lists.el
+.\#*
+.org-id-locations
+*_archive
+*_flymake.*
+/eshell/history
+/eshell/lastdir
+/elpa/
+*.rel
+/auto/
+.cask/
+dist/
+flycheck_*.el
+/server/
+.projectile
+.dir-locals.el
+/network-security.data
+*.~undo-tree~
+recentf
+/.cache/
+/eln-cache/
+*.md
+custom.el
+config.el
