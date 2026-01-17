@@ -2,7 +2,7 @@
 #+AUTHOR: João Cláudio E. B.
 
 #+BEGIN_CENTER
-[[https://github.com/joaoclaudioeb/potato-emacs/blob/main/img/potato-emacs-screenshot.png]]
+[[https://github.com/joaoclaudioeb/potato-emacs/blob/main/img/potato-emacs.png]]
 
 [[https://img.shields.io/badge/status-in_development-red.svg]]
 [[https://github.com/joaoclaudioeb/potato-emacs/releases][https://img.shields.io/github/v/release/joaoclaudioeb/potato-emacs.svg]]
@@ -11,6 +11,14 @@
 [[https://github.com/joaoclaudioeb/potato-emacs/pulls][https://img.shields.io/github/issues-pr/joaoclaudioeb/potato-emacs.svg]]
 [[https://github.com/joaoclaudioeb/potato-emacs/graphs/contributors][https://img.shields.io/github/contributors/joaoclaudioeb/potato-emacs.svg]]
 #+END_CENTER
+
+* Table of Contents:
+- [[#overview][Overview]]
+- [[#repository-organization][Repository organization]]
+- [[#license][License]]
+- [[#releases][Releases]]
+- [[#notes][Notes]]
+- [[#references][References]]
 
 * Overview
 :PROPERTIES:
