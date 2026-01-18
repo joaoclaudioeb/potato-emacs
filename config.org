@@ -4,11 +4,12 @@
 
 * References
 
-| Source              | Purpose                                        |
-|---------------------+------------------------------------------------|
-| [[https://emacs.stackexchange.com/questions/361/how-can-i-hide-display-latex-section-just-like-org-mode-does-with-headlines][Emacs StackExchange]] | Fold LaTeX sections using =outline-minor-mode= |
-| [[https://emacs.stackexchange.com/questions/46930/set-prefix-key-on-load-of-minor-mode][Emacs StackExchange]] | Define key prefixes after minor mode load      |
-| [[https://gist.github.com/nivaca/1c8d282e9d5e60c95d59ab0e6ed11771][Gist]]                | Structural inspiration for this configuration  |
+| Source              | Purpose     |
+|---------------------+-------------|
+| [[https://emacs.stackexchange.com/questions/361/how-can-i-hide-display-latex-section-just-like-org-mode-does-with-headlines][Emacs StackExchange]] | outline     |
+| [[https://emacs.stackexchange.com/questions/46930/set-prefix-key-on-load-of-minor-mode][Emacs StackExchange]] | outline     |
+| [[https://gist.github.com/nivaca/1c8d282e9d5e60c95d59ab0e6ed11771][Gist]]                | auctex      |
+| [[https://github.com/karthink/.emacs.d/blob/master/init.el][GitHub]]              | indent-bars |
 
 
 * Bootstrap & core
@@ -160,62 +161,70 @@ Defines the indentation for different programming languages:
 #+end_src
 
 
-* Built-in packages required
+* Built-in packages
 
 ** use-package
 
+Configures use-package:
+
 #+begin_src emacs-lisp
-(require 'use-package)
+  (require 'use-package)
 #+end_src
 
 ** auth-source
 
+Configures auth-source:
+
 #+begin_src emacs-lisp
-(use-package auth-source :ensure nil
-  :config
-  (let ((credential (auth-source-user-and-password "api.github.com")))
-    (setq grip-github-user (car credential)
-          grip-github-password (cadr credential)))
-  (if (string-equal grip-github-user "")
+  (use-package auth-source :ensure nil
+    :config
+    (let ((credential (auth-source-user-and-password "api.github.com")))
+      (setq grip-github-user (car credential)
+        grip-github-password (cadr credential)))
+    (if (string-equal grip-github-user "")
       (warn "Markdown preview will not work until you set user in the '~/.authinfo' file"))
-  (if (string-equal grip-github-password "")
+    (if (string-equal grip-github-password "")
       (warn "Markdown preview will not work until you set password in the '~/.authinfo' file")))
 #+end_src
 
 ** package
 
+Configures package:
+
 #+begin_src emacs-lisp
-(use-package package :ensure nil
-  :config
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-  (package-initialize)
-  (unless package-archive-contents
-    (package-refresh-contents))
-  :bind
-  ("C-c u p" . package-refresh-contents))
+  (use-package package :ensure nil
+    :config
+    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+    (package-initialize)
+    (unless package-archive-contents
+      (package-refresh-contents))
+    :bind
+    ("C-c u p" . package-refresh-contents))
 #+end_src
 
 ** outline (LaTeX)
 
+Configures outline:
+
 #+begin_src emacs-lisp
-(use-package outline :ensure nil
-  :hook (LaTeX-mode . outline-minor-mode)
-  :config
-  (setq TeX-outline-extra
-        '(("chapter" 1)
-          ("section" 2)
-          ("subsection" 3)
-          ("subsubsection" 4)
-          ("paragraph" 5)))
-  (font-lock-add-keywords
-   'LaTeX-mode
-   '(("^\\(chapter\\|\\(sub\\|subsub\\)?section\\|paragraph\\)"
-      0 'font-lock-keyword-face t)
-     ("^chapter{\\(.*\\)}"       1 'font-latex-sectioning-1-face t)
-     ("^section{\\(.*\\)}"       1 'font-latex-sectioning-2-face t)
-     ("^subsection{\\(.*\\)}"    1 'font-latex-sectioning-3-face t)
-     ("^subsubsection{\\(.*\\)}" 1 'font-latex-sectioning-4-face t)
-     ("^paragraph{\\(.*\\)}"     1 'font-latex-sectioning-5-face t))))
+  (use-package outline :ensure nil
+    :hook (LaTeX-mode . outline-minor-mode)
+    :config
+    (setq TeX-outline-extra
+      '(("chapter" 1)
+         ("section" 2)
+         ("subsection" 3)
+         ("subsubsection" 4)
+         ("paragraph" 5)))
+    (font-lock-add-keywords
+      'LaTeX-mode
+      '(("^\\(chapter\\|\\(sub\\|subsub\\)?section\\|paragraph\\)"
+          0 'font-lock-keyword-face t)
+         ("^chapter{\\(.*\\)}"       1 'font-latex-sectioning-1-face t)
+         ("^section{\\(.*\\)}"       1 'font-latex-sectioning-2-face t)
+         ("^subsection{\\(.*\\)}"    1 'font-latex-sectioning-3-face t)
+         ("^subsubsection{\\(.*\\)}" 1 'font-latex-sectioning-4-face t)
+         ("^paragraph{\\(.*\\)}"     1 'font-latex-sectioning-5-face t))))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -226,62 +235,82 @@ Defines the indentation for different programming languages:
 
 ** nerd-icons
 
+Configures nerd-icons:
+
 #+begin_src emacs-lisp
-(use-package nerd-icons :ensure t)
+  (use-package nerd-icons :ensure t)
 #+end_src
 
 ** projectile
 
+Configures projectile:
+
 #+begin_src emacs-lisp
-(use-package projectile :ensure t)
+  (use-package projectile :ensure t)
 #+end_src
 
 ** s
 
+Configures s:
+
 #+begin_src emacs-lisp
-(use-package s :ensure t)
+  (use-package s :ensure t)
 #+end_src
 
 ** dash
 
+Configures dash:
+
 #+begin_src emacs-lisp
-(use-package dash :ensure t)
+  (use-package dash :ensure t)
 #+end_src
 
 ** ace-window
 
+Configures ace-window:
+
 #+begin_src emacs-lisp
-(use-package ace-window :ensure t)
+  (use-package ace-window :ensure t)
 #+end_src
 
 ** pfuture
 
+Configures pfuture:
+
 #+begin_src emacs-lisp
-(use-package pfuture :ensure t)
+  (use-package pfuture :ensure t)
 #+end_src
 
 ** ht
 
+Configures ht:
+
 #+begin_src emacs-lisp
-(use-package ht :ensure t)
+  (use-package ht :ensure t)
 #+end_src
 
 ** cfrs
 
+Configures cfrs:
+
 #+begin_src emacs-lisp
-(use-package cfrs :ensure t)
+  (use-package cfrs :ensure t)
 #+end_src
 
 ** hydra
 
+Configures hydra:
+
 #+begin_src emacs-lisp
-(use-package hydra :ensure t)
+  (use-package hydra :ensure t)
 #+end_src
 
 ** cl-lib
 
+Configures cl-lib:
+
 #+begin_src emacs-lisp
-(use-package cl-lib :ensure t)
+  (use-package cl-lib :ensure t)
 #+end_src
 
 
@@ -293,20 +322,160 @@ Defines the indentation for different programming languages:
 
 ** treemacs-cfg
 
+Configures the treemacs:
+
 #+begin_src emacs-lisp
-  (require 'treemacs-cfg)
+  (use-package treemacs
+    :ensure t
+    :defer t
+    :init
+    (with-eval-after-load 'winum
+      (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+    :config
+    (progn
+      ;; The default width and height of the icons is 22 pixels. If you are
+      ;; using a Hi-DPI display, uncomment this to double the icon size.
+      ;;(treemacs-resize-icons 44)
+      (setq treemacs-buffer-name-function            #'treemacs-default-buffer-name
+        treemacs-buffer-name-prefix              " *Treemacs-Buffer-"
+        treemacs-collapse-dirs                   (if treemacs-python-executable 3 0)
+        treemacs-deferred-git-apply-delay        0.5
+        treemacs-directory-name-transformer      #'identity
+        treemacs-display-in-side-window          t
+        treemacs-eldoc-display                   'simple
+        treemacs-file-event-delay                2000
+        treemacs-file-extension-regex            treemacs-last-period-regex-value
+        treemacs-file-follow-delay               0.2
+        treemacs-file-name-transformer           #'identity
+        treemacs-follow-after-init               t
+        treemacs-expand-after-init               t
+        treemacs-find-workspace-method           'find-for-file-or-pick-first
+        treemacs-git-command-pipe                ""
+        treemacs-goto-tag-strategy               'refetch-index
+        treemacs-header-scroll-indicators        '(nil . "^^^^^^")
+        treemacs-hide-dot-git-directory          t
+        treemacs-indentation                     2
+        treemacs-indentation-string              " "
+        treemacs-is-never-other-window           nil
+        treemacs-max-git-entries                 5000
+        treemacs-missing-project-action          'ask
+        treemacs-move-files-by-mouse-dragging    t
+        treemacs-move-forward-on-expand          nil
+        treemacs-no-png-images                   nil
+        treemacs-no-delete-other-windows         t
+        treemacs-project-follow-cleanup          nil
+        treemacs-persist-file                    (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+        treemacs-position                        'left
+        treemacs-read-string-input               'from-child-frame
+        treemacs-recenter-distance               0.1
+        treemacs-recenter-after-file-follow      nil
+        treemacs-recenter-after-tag-follow       nil
+        treemacs-recenter-after-project-jump     'always
+        treemacs-recenter-after-project-expand   'on-distance
+        treemacs-litter-directories              '("/node_modules" "/.venv" "/.cask")
+        treemacs-project-follow-into-home        nil
+        treemacs-show-cursor                     nil
+        treemacs-show-hidden-files               t
+        treemacs-silent-filewatch                nil
+        treemacs-silent-refresh                  nil
+        treemacs-sorting                         'alphabetic-asc
+        treemacs-select-when-already-in-treemacs 'move-back
+        treemacs-space-between-root-nodes        t
+        treemacs-tag-follow-cleanup              t
+        treemacs-tag-follow-delay                1.5
+        treemacs-text-scale                      nil
+        treemacs-user-mode-line-format           nil
+        treemacs-user-header-line-format         nil
+        treemacs-wide-toggle-width               70
+        treemacs-width                           35
+        treemacs-width-increment                 1
+        treemacs-width-is-initially-locked       t
+        treemacs-workspace-switch-cleanup        nil)
+
+      (treemacs-follow-mode t)
+      (treemacs-filewatch-mode t)
+      (treemacs-fringe-indicator-mode 'always)
+      (when treemacs-python-executable
+        (treemacs-git-commit-diff-mode t))
+
+      (pcase (cons (not (null (executable-find "git")))
+               (not (null treemacs-python-executable)))
+        (`(t . t)
+          (treemacs-git-mode 'deferred))
+        (`(t . _)
+          (treemacs-git-mode 'simple)))
+
+      (treemacs-hide-gitignored-files-mode nil))
+    :bind
+    (:map global-map
+      ("M-0"       . treemacs-select-window)
+      ("C-x t 1"   . treemacs-delete-other-windows)
+      ("C-x t t"   . treemacs)
+      ("C-x t d"   . treemacs-select-directory)
+      ("C-x t B"   . treemacs-bookmark)
+      ("C-x t C-t" . treemacs-find-file)
+      ("C-x t M-t" . treemacs-find-tag)))
+
+  (use-package treemacs-evil
+    :after (treemacs evil)
+    :ensure t)
+
+  (use-package treemacs-projectile
+    :after (treemacs projectile)
+    :ensure t)
+
+  (use-package treemacs-icons-dired
+    :hook (dired-mode . treemacs-icons-dired-enable-once)
+    :ensure t)
+
+  (use-package treemacs-magit
+    :after (treemacs magit)
+    :ensure t)
+
+  (use-package treemacs-persp
+    :after (treemacs persp-mode)
+    :ensure t
+    :config (treemacs-set-scope-type 'Perspectives))
+
+  (use-package treemacs-tab-bar
+    :after (treemacs)
+    :ensure t
+    :config (treemacs-set-scope-type 'Tabs))
 #+end_src
 
 ** diminish-cfg
 
+Configures diminish:
+
 #+begin_src emacs-lisp
-  (require 'diminish-cfg)
+  (use-package diminish :ensure t)
 #+end_src
 
 ** ivy-cfg
 
+Configures ivy:
+
 #+begin_src emacs-lisp
-  (require 'ivy-cfg)
+  (use-package ivy :ensure t
+    :diminish ivy-mode
+    :init
+    (ivy-mode)
+    :config
+    (setq ivy-use-virtual-buffers t)
+    (setq ivy-count-format "(%d/%d) ")
+    :bind
+    (("C-s" . swiper)
+      (:map ivy-minibuffer-map
+        ("TAB" . ivy-alt-done)
+        ("C-j" . ivy-next-line)
+        ("C-k" . ivy-previous-line))
+      (:map ivy-switch-buffer-map
+        ("C-k" . ivy-previous-line)
+        ("C-l" . ivy-done)
+        ("C-d" . ivy-switch-buffer-kill))
+      (:map ivy-reverse-i-search-map
+        ("C-k" . ivy-previous-line)
+        ("C-d" . ivy-reverse-i-search-kill))))
 #+end_src
 
 ** markdown-modes-cfg
@@ -319,50 +488,246 @@ Defines the indentation for different programming languages:
 
 ** swiper-cfg
 
+Configures swiper:
+
 #+begin_src emacs-lisp
-(require 'swiper-cfg)
+  (use-package swiper :ensure t
+    :after ivy)
 #+end_src
 
 ** magit-cfg
 
+Configures magit:
+
 #+begin_src emacs-lisp
-(require 'magit-cfg)
+  (use-package magit :ensure t
+    :bind (("C-x g" . magit)))
 #+end_src
 
 ** all-the-icons-cfg
 
+Configures all-the-icons:
+
 #+begin_src emacs-lisp
-(require 'all-the-icons-cfg)
+  (use-package all-the-icons :ensure t
+    :init
+    (unless (member "all-the-icons" (font-family-list))
+      (all-the-icons-install-fonts t)))
 #+end_src
 
 ** dashboard-cfg
 
+Configures dashboard:
+
 #+begin_src emacs-lisp
-(require 'dashboard-cfg)
+  (use-package dashboard :ensure t
+    :init
+    ; Configures which widgets are displayed.
+    (setq dashboard-items '((recents   . 5)
+                             ;(bookmarks . 5)
+                             (projects  . 5)
+                             (agenda    . 5)
+  			   ;(registers . 5)
+  			   ))
+    ; Configures the menu's banner and title
+    (setq dashboard-startup-banner "~/.emacs.d/potato_logo.txt")
+    (setq dashboard-banner-logo-title "Welcome to the Potato-Verse.")
+    ; Configures the content placement
+    (setq dashboard-center-content t)
+    (setq dashboard-vertically-center-content t)
+    ; Defines the type of icons to be used
+    (setq dashboard-icon-type 'all-the-icons)
+    ; Configures where the items icons should be displayed
+    (setq dashboard-set-heading-icons t)
+    (setq dashboard-set-file-icons t)
+    ; Configures if the items shortcuts should be displayed
+    (setq dashboard-show-shortcuts t)
+    ; Configures the menu's navigator
+    (setq dashboard-startupify-list '(dashboard-insert-banner
+                                       dashboard-insert-newline
+                                       dashboard-insert-banner-title
+                                       dashboard-insert-newline
+                                       dashboard-insert-navigator
+                                       dashboard-insert-newline
+                                       dashboard-insert-init-info
+                                       dashboard-insert-items
+                                       dashboard-insert-newline
+                                       dashboard-insert-footer))
+    ; Configures the menu's items shortcuts
+    (setq dashboard-item-shortcuts '((recents   . "r")
+                                      (bookmarks . "m")
+                                      (projects  . "p")
+                                      (agenda    . "a")
+                                      (registers . "e")))
+    ; Renames the menu's items
+    ;(setq dashboard-item-names '(("Recent Files:"               . "Recently opened files:")
+    ;                              ("Agenda for today:"           . "Today's agenda:")
+    ;                              ("Agenda for the coming week:" . "Agenda:")))
+    (setq dashboard-navigator-buttons
+      `(
+         (
+  	 (,(all-the-icons-faicon "github" :height 1.2 :v-adjust 0.0)
+             "GitHub"
+             "Users' GitHub page"
+             (lambda (&rest _) (browse-url "https://github.com/joaoclaudioeb")))
+           (,(all-the-icons-faicon "home" :height 1.2 :v-adjust 0.0)
+             "Homepage"
+             "Users' homepage"
+             (lambda (&rest _) (browse-url "https://github.com/joaoclaudioeb"))))))
+    :config
+    (dashboard-setup-startup-hook))
 #+end_src
 
 ** themes-cfg
 
+Configures the theme:
+
 #+begin_src emacs-lisp
-(require 'themes-cfg)
+  (defun load-my-theme (theme)
+    (cond
+      ((eq theme 'modus-vivendi)
+        ; Configures modus-themes
+        (use-package modus-themes :ensure t
+          :init
+          (setq modus-vivendi-palette-overrides
+            '((bg-main "#191919")
+               ;; (comment "#DFAF7A")
+               (comment "#FFA500")
+               (string "#2FAFFF")
+               (keyword "#70B900")
+               (name "#70B900")
+               (docstring "#DFAF7A")))
+          (setq modus-themes-bold-constructs t)
+          (setq modus-themes-italic-constructs t)
+          (setq modus-themes-mode-line '(accented))
+          (setq modus-themes-region '(bg-only))
+          (setq modus-themes-completions '(opinionated))
+          :config
+          (load-theme 'modus-vivendi t)))
+      ((eq theme 'doom-one)
+        ; Configures doom-themes
+        (use-package doom-themes :ensure t
+          :config
+          (load-theme 'doom-one t)))
+      (t
+        (error "Unknown theme: %s" theme))))
+
+  (load-my-theme 'modus-vivendi)
 #+end_src
 
 ** company-cfg
 
+Configures company:
+
 #+begin_src emacs-lisp
-(require 'company-cfg)
+  (use-package company :ensure t
+    :delight company-mode
+    :demand t
+    :init
+    (setq company-idle-delay 0.1)
+    (setq company-minimum-prefix-length 1)
+    :bind (:map company-active-map
+            ("C-n" . company-select-next)
+            ("C-p" . company-select-previous))
+    :config
+    (global-company-mode))
 #+end_src
 
 ** multiple-cursors-cfg
 
+Configures multiple-cursors:
+
 #+begin_src emacs-lisp
-(require 'multiple-cursors-cfg)
+  (use-package multiple-cursors :ensure t
+    :bind (("C-M-c" . mc/edit-lines)
+            ("C->" . mc/mark-next-like-this)
+            ("C-<" . mc/mark-previous-like-this)
+            ("C-c C-<" . mc/mark-all-like-this)))
 #+end_src
 
 ** latex-mode-cfg
 
+Configurações do auctex:
+
 #+begin_src emacs-lisp
-(require 'latex-mode-cfg)
+  (use-package auctex
+    :ensure t
+    :defer t
+    :config
+    (setq TeX-auto-save t)             ; Enable automatic parsing and saving of style information
+    (setq TeX-parse-self t)            ; Enable parsing of the document when loaded
+    (setq TeX-master t)                ; Assume current file is the master in a multi-file project
+    (setq TeX-source-correlate-mode t) ; Enable sync between source and output (e.g., PDF)
+    
+    ;; Method for source correlation (SyncTeX)
+    (setq TeX-source-correlate-method
+      '((dvi . source-specials)
+         (pdf . synctex)))
+    
+    ;; Indentation settings for LaTeX
+    (setq LaTeX-indent-level 4
+      LaTeX-item-indent 0)
+    
+    ;; Allow shell escape for packages like 'minted'
+    (setq TeX-command-extra-options "-shell-escape")
+    
+    ;; Define distinct visual styles for different comment levels and TODO markers.
+    (defface my-double-percent-comment
+      '((t :inherit font-lock-comment-face :height 1.4))
+      "Face for double-percent comments (`%%`).")
+    
+    (defface my-triple-percent-comment
+      '((t :inherit font-lock-comment-face :height 1.6))
+      "Face for triple-percent comments (`%%%`).")
+    
+    ;; Face for TODO/FIXME keywords (inherits warning style)
+    (defface my-warning
+      '((t :inherit font-lock-warning-face :height 1.4))
+      "Face for TODO, TBD, and FIXME keywords.")
+    
+    ;; Prominent face for quad-percent comments (four or more `%`)
+    (defface my-quad-percent-comment
+      '((t :inherit font-lock-comment-face
+          :foreground "#FFA500"
+          :height 2.0
+          :weight bold
+          :slant italic
+          :underline t))
+      "Face for comments with four or more percent signs (`%%%%`).")
+    
+    ;; Apply the custom faces to LaTeX buffers
+    (font-lock-add-keywords
+      'LaTeX-mode
+      '(("\\(%%+.*\\)" 1 'my-double-percent-comment t)
+         ("\\(%%%+.*\\)" 1 'my-triple-percent-comment t)
+         ("\\(%%%%+.*\\)" 1 'my-quad-percent-comment t)
+         ("\\<\\(TODO\\|TBD\\|FIXME\\)\\>" 1 'my-warning t))))
+
+  ;; This function calculates the indentation column for specific LaTeX environments.
+  ;; It is designed to be used with `LaTeX-indent-environment-list`.
+  (defun mg-LaTeX-indent-level (type)
+    "Calculate indentation column for the current LaTeX environment.
+  TYPE is a regexp string expected to match the \\end{...} statement of the environment."
+    (cl-destructuring-bind
+      (beg-pos . beg-col)
+      (LaTeX-env-beginning-pos-col) ; Get the starting column of the current environment
+      (cond
+        ;; If point is looking at the specified \end{...} pattern,
+        ;; align with the start of the environment.
+        ((looking-at type)
+          beg-col)
+        ;; Otherwise, indent by the standard LaTeX level relative to the environment start.
+        (t
+          (+ (* LaTeX-indent-level) beg-col)))))
+
+  ;; Add custom indentation behavior for specific environments after 'latex.el' is loaded.
+  (eval-after-load "latex"
+    '(progn
+       ;; Apply custom indentation function to 'longtblr' (from tabularray) and 'verbatim' environments.
+       (add-to-list 'LaTeX-indent-environment-list
+         '("longtblr" (lambda () (mg-LaTeX-indent-level "\\\\end{longtblr}"))))
+       (add-to-list 'LaTeX-indent-environment-list
+         '("verbatim" (lambda () (mg-LaTeX-indent-level "\\\\end{verbatim}"))))))
 #+end_src
 
 ** vterm-cfg
@@ -379,8 +744,19 @@ To work properly, it is indicated to install the libraries libtool-bin and libvt
 
 ** indent-bars-cfg
 
+Configures the indent-bars:
+
 #+begin_src emacs-lisp
-(require 'indent-bars-cfg)
+(use-package indent-bars :ensure t
+  :hook ((python-mode c-mode lisp-mode emacs-lisp-mode julia-mode) . indent-bars-mode)
+  :config
+  (setq
+    indent-bars-pattern ". . . . "
+    indent-bars-width-frac 0.25
+    indent-bars-pad-frac 0.2
+    indent-bars-zigzag 0.1
+    indent-bars-color-by-depth '(:regexp "outline-\\([0-9]+\\)" :blend 1)
+    indent-bars-highlight-current-depth '(:pattern "." :pad 0.1 :width 0.45)))
 #+end_src
 
 
