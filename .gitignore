@@ -1,4 +1,5 @@
-# Emacs-related files:
+# Emacs-related files/folders:
+
 *~
 \#*\#
 /.emacs.desktop
@@ -10,22 +11,23 @@ tramp
 .org-id-locations
 *_archive
 *_flymake.*
-/eshell/history
-/eshell/lastdir
-/elpa/
+eshell/
+elpa/
 *.rel
-/auto/
+auto/
 .cask/
 dist/
 flycheck_*.el
-/server/
+server/
 .projectile
 .dir-locals.el
 /network-security.data
 *.~undo-tree~
 recentf
-/.cache/
-/eln-cache/
+.cache/
+eln-cache/
 *.md
 custom.el
 config.el
+projects
+bookmarks

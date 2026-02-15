@@ -10,6 +10,9 @@
 | [[https://emacs.stackexchange.com/questions/46930/set-prefix-key-on-load-of-minor-mode][Emacs StackExchange]] | outline     |
 | [[https://gist.github.com/nivaca/1c8d282e9d5e60c95d59ab0e6ed11771][Gist]]                | auctex      |
 | [[https://github.com/karthink/.emacs.d/blob/master/init.el][GitHub]]              | indent-bars |
+| [[https://www.reddit.com/r/DoomEmacs/comments/ofggru/open_treemacs_on_doom_startup/][Reddit]]              | treemacs    |
+| [[https://olddeuteronomy.github.io/post/eshell-aliases-and-prompt/][The Emacs Cat]]       | eshell      |
+| [[https://www.reddit.com/r/emacs/comments/6f0rkz/my_fancy_eshell_prompt/][Reddit]]              | eshell      |
 
 
 * Bootstrap & core
@@ -316,11 +319,7 @@ Configures cl-lib:
 
 * "External" packages
 
-#+begin_src emacs-lisp
-(add-to-list 'load-path "~/.emacs.d/external")
-#+end_src
-
-** treemacs-cfg
+** treemacs
 
 Configures the treemacs:
 
@@ -443,7 +442,7 @@ Configures the treemacs:
     :config (treemacs-set-scope-type 'Tabs))
 #+end_src
 
-** diminish-cfg
+** diminish
 
 Configures diminish:
 
@@ -451,7 +450,7 @@ Configures diminish:
   (use-package diminish :ensure t)
 #+end_src
 
-** ivy-cfg
+** ivy
 
 Configures ivy:
 
@@ -478,15 +477,20 @@ Configures ivy:
         ("C-d" . ivy-reverse-i-search-kill))))
 #+end_src
 
-** markdown-modes-cfg
+** grip-mode
 
 #+begin_src emacs-lisp
-  (use-package grip-mode :ensure t
-    :config (setq grip-command 'grip) ;; auto, grip, go-grip or mdopen
-    :hook ((markdown-mode org-mode) . grip-mode))
+  (use-package grip-mode
+    :ensure t
+    :commands grip-mode
+    :config
+    (setq grip-command 'grip))
+
+  (with-eval-after-load 'org
+    (define-key org-mode-map (kbd "C-c g") #'grip-mode))
 #+end_src
 
-** swiper-cfg
+** swiper
 
 Configures swiper:
 
@@ -495,7 +499,7 @@ Configures swiper:
     :after ivy)
 #+end_src
 
-** magit-cfg
+** magit
 
 Configures magit:
 
@@ -504,7 +508,7 @@ Configures magit:
     :bind (("C-x g" . magit)))
 #+end_src
 
-** all-the-icons-cfg
+** all-the-icons
 
 Configures all-the-icons:
 
@@ -515,34 +519,49 @@ Configures all-the-icons:
       (all-the-icons-install-fonts t)))
 #+end_src
 
-** dashboard-cfg
+** dashboard
 
 Configures dashboard:
 
 #+begin_src emacs-lisp
+  ;; (defun my-dashboard-insert-banner ()
+  ;;   "Insert the ASCII banner with custom styling."
+  ;;   (when dashboard-startup-banner
+  ;;     (let ((lines (if (stringp dashboard-startup-banner)
+  ;;                    (with-temp-buffer
+  ;;                      (insert-file-contents dashboard-startup-banner)
+  ;;                      (split-string (buffer-string) "\n" t))
+  ;;                    (split-string dashboard-startup-banner "\n" t))))
+  ;;       (dolist (line lines)
+  ;;         (insert (propertize (concat line "\n")
+  ;;                   'face 'dashboard-text-banner))))))
+
   (use-package dashboard :ensure t
     :init
-    ; Configures which widgets are displayed.
-    (setq dashboard-items '((recents   . 5)
-                             ;(bookmarks . 5)
-                             (projects  . 5)
-                             (agenda    . 5)
-  			   ;(registers . 5)
-  			   ))
-    ; Configures the menu's banner and title
-    (setq dashboard-startup-banner "~/.emacs.d/potato_logo.txt")
-    (setq dashboard-banner-logo-title "Welcome to the Potato-Verse.")
-    ; Configures the content placement
+    ;; Configures which widgets are displayed.
+    (setq dashboard-items '((recents    . 2)
+                             ;; (bookmarks . 5)
+                             ;; (projects  . 5)
+                             (agenda    . 25)
+                             ;; (registers . 5)
+        			   ))
+    (setq dashboard-week-agenda nil)
+    ;; Configures the content placement
     (setq dashboard-center-content t)
     (setq dashboard-vertically-center-content t)
-    ; Defines the type of icons to be used
+    ;; Configures the menu's banner and title
+    ;; (setq dashboard-startup-banner "~/.emacs.d/logos/ascii_logo_1.txt")
+    ;; (setq dashboard-startup-banner "~/.emacs.d/logos/ascii_logo_2.txt")
+    (setq dashboard-startup-banner "~/.emacs.d/logos/ascii_logo_3.txt")
+    (setq dashboard-banner-logo-title "Welcome to the Potato-Verse.")
+    ;; Defines the type of icons to be used
     (setq dashboard-icon-type 'all-the-icons)
-    ; Configures where the items icons should be displayed
+    ;; Configures where the items icons should be displayed
     (setq dashboard-set-heading-icons t)
     (setq dashboard-set-file-icons t)
-    ; Configures if the items shortcuts should be displayed
+    ;; Configures if the items shortcuts should be displayed
     (setq dashboard-show-shortcuts t)
-    ; Configures the menu's navigator
+    ;; Configures the menu's navigator
     (setq dashboard-startupify-list '(dashboard-insert-banner
                                        dashboard-insert-newline
                                        dashboard-insert-banner-title
@@ -553,32 +572,34 @@ Configures dashboard:
                                        dashboard-insert-items
                                        dashboard-insert-newline
                                        dashboard-insert-footer))
-    ; Configures the menu's items shortcuts
-    (setq dashboard-item-shortcuts '((recents   . "r")
+    ;; Configures the menu's items shortcuts
+    (setq dashboard-item-shortcuts '((recents    . "r")
                                       (bookmarks . "m")
                                       (projects  . "p")
                                       (agenda    . "a")
                                       (registers . "e")))
-    ; Renames the menu's items
-    ;(setq dashboard-item-names '(("Recent Files:"               . "Recently opened files:")
-    ;                              ("Agenda for today:"           . "Today's agenda:")
-    ;                              ("Agenda for the coming week:" . "Agenda:")))
+    ;; Renames the menu's items
+    ;; (setq dashboard-item-names '(("Recent Files:"               . "Recently opened files:")
+    ;;                               ("Agenda for today:"           . "Today's agenda:")
+    ;;                               ("Agenda for the coming week:" . "Agenda:")))
     (setq dashboard-navigator-buttons
       `(
-         (
-  	 (,(all-the-icons-faicon "github" :height 1.2 :v-adjust 0.0)
-             "GitHub"
-             "Users' GitHub page"
-             (lambda (&rest _) (browse-url "https://github.com/joaoclaudioeb")))
+         ((,(all-the-icons-faicon "github" :height 1.2 :v-adjust 0.0)
+            "GitHub"
+            "Users' GitHub page"
+            (lambda (&rest _) (browse-url "https://github.com/joaoclaudioeb")))
            (,(all-the-icons-faicon "home" :height 1.2 :v-adjust 0.0)
              "Homepage"
              "Users' homepage"
              (lambda (&rest _) (browse-url "https://github.com/joaoclaudioeb"))))))
     :config
-    (dashboard-setup-startup-hook))
+    ;; (set-face-attribute 'dashboard-text-banner nil :height 0.6)
+    (dashboard-setup-startup-hook)
+    ;; (add-hook 'window-setup-hook #'treemacs 'append)
+    )
 #+end_src
 
-** themes-cfg
+** themes
 
 Configures the theme:
 
@@ -615,7 +636,7 @@ Configures the theme:
   (load-my-theme 'modus-vivendi)
 #+end_src
 
-** company-cfg
+** company
 
 Configures company:
 
@@ -633,7 +654,7 @@ Configures company:
     (global-company-mode))
 #+end_src
 
-** multiple-cursors-cfg
+** multiple-cursors
 
 Configures multiple-cursors:
 
@@ -645,7 +666,7 @@ Configures multiple-cursors:
             ("C-c C-<" . mc/mark-all-like-this)))
 #+end_src
 
-** latex-mode-cfg
+** auctex
 
 Configurações do auctex:
 
@@ -707,7 +728,7 @@ Configurações do auctex:
   ;; It is designed to be used with `LaTeX-indent-environment-list`.
   (defun mg-LaTeX-indent-level (type)
     "Calculate indentation column for the current LaTeX environment.
-  TYPE is a regexp string expected to match the \\end{...} statement of the environment."
+    TYPE is a regexp string expected to match the \\end{...} statement of the environment."
     (cl-destructuring-bind
       (beg-pos . beg-col)
       (LaTeX-env-beginning-pos-col) ; Get the starting column of the current environment
@@ -730,7 +751,7 @@ Configurações do auctex:
          '("verbatim" (lambda () (mg-LaTeX-indent-level "\\\\end{verbatim}"))))))
 #+end_src
 
-** vterm-cfg
+** vterm
 
 Configures vterm:
 
@@ -742,7 +763,7 @@ Configures vterm:
 
 To work properly, it is indicated to install the libraries libtool-bin and libvterm-dev (on Debian, Ubuntu) or libvterm (on Arch, Fedora and others).
 
-** indent-bars-cfg
+** indent-bars
 
 Configures the indent-bars:
 
@@ -759,11 +780,154 @@ Configures the indent-bars:
     indent-bars-highlight-current-depth '(:pattern "." :pad 0.1 :width 0.45)))
 #+end_src
 
+** yaml-mode
+
+Configures the yaml-mode:
+
+#+begin_src emacs-lisp
+  (use-package yaml-mode
+    :ensure t
+    :mode ("\\.ya?ml\\'" . yaml-mode)
+    :config
+    ;; Configurações adicionais
+    (setq yaml-indent-offset 2)  ; Indentação de 2 espaços
+    (add-hook 'yaml-mode-hook
+              (lambda ()
+                (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
+#+end_src
+
+** agenda
+
+Configures the agenda
+
+#+begin_src emacs-lisp
+  (setq org-agenda-files '("~/Documents/agenda/"))
+
+  (defface general-tag-face
+    '((t (:foreground "#F78FE7")))
+    "Face used for general tags.")
+
+  (defface urgent-tag-face
+    '((t (:foreground "white"
+           :background "#D13434"
+           :height 1.2
+           :weight bold)))
+    "Face used for urgent tags.")
+
+  (setq org-tag-faces
+    '(("research" . general-tag-face)
+       ("pcb" . general-tag-face)
+       ("email" . general-tag-face)
+       ("meeting" . general-tag-face)
+       ("urgent" . urgent-tag-face)))
+
+  (setq org-todo-keywords
+    '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CANCELED")))
+
+  (setq org-todo-keyword-faces
+    '(("TODO" . org-warning) ("IN-PROGRESS" . org-done) ("WAITING" . "orange")
+       ("CANCELED" . (:foreground "red" :weight bold))))
+#+end_src
+
+** eshell
+
+Configures the eshell
+
+#+begin_src emacs-lisp
+  ;; (use-package pyvenv
+  ;;   :ensure t
+  ;;   :hook (eshell-mode . pyvenv-mode))
+
+  (add-hook 'eshell-mode-hook (lambda ()
+                                (setenv "TERM" "xterm-256color")
+                                (eshell/alias "e" "find-file $1")
+                                (eshell/alias "ff" "find-file $1")
+                                (eshell/alias "emacs" "find-file $1")
+                                (eshell/alias "ee" "find-file-other-window $1")
+
+                                (eshell/alias "gd" "magit-diff-unstaged")
+                                (eshell/alias "gds" "magit-diff-staged")
+                                (eshell/alias "d" "dired $1")
+                                (let ((ls (if (file-exists-p "/usr/local/bin/gls")
+                                            "/usr/local/bin/gls"
+                                            "/bin/ls")))
+                                  (eshell/alias "ll" (concat ls " -AlohG --color=always")))))
+
+  (setq eshell-prompt-function
+    (lambda ()
+      (concat
+        (propertize "┌─[" 'face 'font-lock-comment-face)
+        (propertize (user-login-name) 'face 'font-lock-keyword-face)
+        (propertize "@" 'face 'font-lock-comment-face)
+        (propertize (system-name) 'face 'font-lock-function-name-face)
+        (propertize "]──[" 'face 'font-lock-comment-face)
+        (propertize (format-time-string "%H:%M" (current-time)) 'face 'font-lock-builtin-face)
+        (propertize "]──[" 'face 'font-lock-comment-face)
+        (propertize (concat (eshell/pwd)) 'face 'shadow)
+        (propertize "]\n" 'face 'font-lock-comment-face)
+        (propertize "└─>" 'face 'font-lock-comment-face)
+        (propertize (if (= (user-uid) 0) " # " " $ ") 'face 'font-lock-comment-face)
+        ;; (if pyvenv-virtual-env-name
+        ;;   (propertize (concat " (" pyvenv-virtual-env-name ")") 'face 'font-lock-keyword-face)
+        ;;   (propertize "" 'face 'font-lock-keyword-face))
+        (if (magit-get-current-branch)
+          (propertize (concat "(" (magit-get-current-branch) ") ") 'face 'font-lock-keyword-face)
+          (propertize "" 'face 'font-lock-keyword-face))
+        )))
+#+end_src
+
+
+(setq-default truncate-lines nil)
+
 
 * Custom buffers
 
-** my-buffers-cfg
+** my-buffers
 
 #+begin_src emacs-lisp
-(require 'my-buffers-cfg)
+  (defun my-show-help-buffer ()
+    (interactive)
+    (with-help-window "*You idiot...*"
+      (insert "Emacs - Comandos Úteis\n\n")
+
+      ;; Comandos de Navegação
+      (insert "== Navegação ==\n")
+      (insert "C-x b    → Mudar de buffer\n")
+      (insert "C-x k    → Fechar buffer\n")
+      (insert "C-x o    → Alternar entre janelas\n")
+      (insert "M-<      → Ir para o início do buffer\n")
+      (insert "M->      → Ir para o final do buffer\n\n")
+
+      ;; Edição e Manipulação de Arquivos
+      (insert "== Edição e Arquivos ==\n")
+      (insert "C-x C-f  → Abrir arquivo\n")
+      (insert "C-x C-s  → Salvar arquivo\n")
+      (insert "C-x C-w  → Salvar como\n")
+      (insert "C-x C-c  → Fechar Emacs\n")
+      (insert "C-/      → Desfazer (undo)\n")
+      (insert "M-x revert-buffer  → Reverter modificações\n\n")
+
+      ;; Manipulação de Texto
+      (insert "== Manipulação de Texto ==\n")
+      (insert "M-d      → Apagar palavra à frente\n")
+      (insert "M-DEL    → Apagar palavra atrás\n")
+      (insert "C-k      → Apagar linha\n")
+      (insert "C-y      → Colar (yank)\n")
+      (insert "M-y      → Colar anterior (circular)\n\n")
+
+      ;; Outras Funções Úteis
+      (insert "== Outros ==\n")
+      (insert "C-g      → Cancelar comando\n")
+      (insert "M-x      → Executar comando\n")
+      (insert "C-h k    → Explicar um comando\n")
+      (insert "C-h f    → Explicar uma função\n")
+      (insert "C-h v    → Explicar uma variável\n\n")
+
+      ;; Treemacs
+      (insert "Treemacs: \n")
+      (insert "M-C h (M-H)      Move root up \n\n")
+      (insert "M-C l (M-L)      Move root down \n\n")
+      (insert "C-x t t          Toggle sidebar view \n\n")
+
+      (insert "Pressione 'q' para fechar este painel.\n")))
 #+end_src
