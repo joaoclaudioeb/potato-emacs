@@ -607,7 +607,7 @@ Configures the theme:
   (defun load-my-theme (theme)
     (cond
       ((eq theme 'modus-vivendi)
-        ; Configures modus-themes
+        ;; Configures modus-themes
         (use-package modus-themes :ensure t
           :init
           (setq modus-vivendi-palette-overrides
@@ -625,11 +625,26 @@ Configures the theme:
           (setq modus-themes-completions '(opinionated))
           :config
           (load-theme 'modus-vivendi t)))
-      ((eq theme 'doom-one)
-        ; Configures doom-themes
+      ((eq theme 'doom-one) ; (TODO) Still needs some attention...
+        ;; Configures doom-themes
         (use-package doom-themes :ensure t
+          :custom
+          ;; Global settings (defaults)
+          (doom-themes-enable-bold t)   ; if nil, bold is universally disabled
+          (doom-themes-enable-italic t) ; if nil, italics is universally disabled
+          ;; for treemacs users
+          (doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
           :config
-          (load-theme 'doom-one t)))
+          (load-theme 'doom-one t)
+
+          ;; Enable flashing mode-line on errors
+          (doom-themes-visual-bell-config)
+          ;; Enable custom neotree theme (nerd-icons must be installed!)
+          ;; (doom-themes-neotree-config)
+          ;; or for treemacs users
+          (doom-themes-treemacs-config)
+          ;; Corrects (and improves) org-mode's native fontification.
+          (doom-themes-org-config)))
       (t
         (error "Unknown theme: %s" theme))))
 
@@ -805,21 +820,41 @@ Configures the agenda
 
   (defface general-tag-face
     '((t (:foreground "#F78FE7")))
-    "Face used for general tags.")
+    "Face for general tags in Org mode.")
 
   (defface urgent-tag-face
     '((t (:foreground "white"
            :background "#D13434"
            :height 1.2
            :weight bold)))
-    "Face used for urgent tags.")
+    "Face for 'urgent' tag in Org mode.")
+
+  (defface todo-tag-face
+    '((t (:foreground "white"
+           :background "#7000B5"
+           :height 1.2
+           :weight bold)))
+    "Face for 'todo' tag in Org mode.")
+
+  (defface my-obs-face
+    '((t (:foreground "#FFA500"
+           :height 1.2
+           :weight bold)))
+    "Face for 'Obs.:' annotations in Org mode.")
+
+    (defface my-check-face
+    '((t (:foreground "green"
+           :height 1.2
+           :weight bold)))
+    "Face for '[✓]' annotations in Org mode.")
 
   (setq org-tag-faces
     '(("research" . general-tag-face)
        ("pcb" . general-tag-face)
        ("email" . general-tag-face)
        ("meeting" . general-tag-face)
-       ("urgent" . urgent-tag-face)))
+       ("urgent" . urgent-tag-face)
+       ("todo" . todo-tag-face)))
 
   (setq org-todo-keywords
     '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CANCELED")))
@@ -827,6 +862,16 @@ Configures the agenda
   (setq org-todo-keyword-faces
     '(("TODO" . org-warning) ("IN-PROGRESS" . org-done) ("WAITING" . "orange")
        ("CANCELED" . (:foreground "red" :weight bold))))
+
+  (font-lock-add-keywords
+    'org-mode
+    '(("\\(Obs\\.:\\)" 1 'my-obs-face t)))
+
+  (font-lock-add-keywords
+    'org-mode
+    '(("\\(\\[D\\]\\)" 1 'my-check-face t)))
+
+  (add-hook 'org-mode-hook 'visual-line-mode)
 #+end_src
 
 ** eshell
