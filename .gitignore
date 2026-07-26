@@ -1,5 +1,4 @@
-# Emacs-related files/folders:
-
+# -*- mode: gitignore; -*-
 *~
 \#*\#
 /.emacs.desktop
@@ -8,26 +7,81 @@
 auto-save-list
 tramp
 .\#*
+
+# org-mode
 .org-id-locations
 *_archive
+
+# flymake-mode
 *_flymake.*
-eshell/
-elpa/
+
+# eshell files
+/eshell/history
+/eshell/lastdir
+
+# elpa packages
+/elpa/
+
+# reftex files
 *.rel
-auto/
+
+# auctex auto folder
+/auto/
+
+# cask packages
 .cask/
 dist/
+
+# flycheck
 flycheck_*.el
-server/
+
+# server auth directory
+/server/
+
+# projectiles files
 .projectile
+
+# directory configuration
 .dir-locals.el
+
+# network security
 /network-security.data
+
+# undo-tree
 *.~undo-tree~
+
+## additional auto-generated files
+.mc-lists.el
+ede-projects.el
+srecode-map.el
+semanticdb/
+tree-sitter/
+vimish-fold/
+*.swp
+*.swo
+*.eln
+/eln-cache/
+.session.*
+*.session
 recentf
-.cache/
-eln-cache/
-*.md
-custom.el
-config.el
-projects
+.recentf
+saveplace
+.saveplace
 bookmarks
+.bookmarks
+*history
+*hist
+persp-confs/
+persp-auto-save
+workgroups.el
+workgroups
+eproject.el
+.projectile-bookmarks.eld
+helm-files
+helm-bookmarks
+ivy-history
+.counsel*
+.cache/
+config.el
+custom.el
+eshell/

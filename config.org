@@ -13,6 +13,8 @@
 | [[https://www.reddit.com/r/DoomEmacs/comments/ofggru/open_treemacs_on_doom_startup/][Reddit]]              | treemacs    |
 | [[https://olddeuteronomy.github.io/post/eshell-aliases-and-prompt/][The Emacs Cat]]       | eshell      |
 | [[https://www.reddit.com/r/emacs/comments/6f0rkz/my_fancy_eshell_prompt/][Reddit]]              | eshell      |
+| [[https://github.com/jakebox/jake-emacs][GitHub]]              | org-mode    |
+| [[https://jft.home.blog/2019/07/17/use-unicode-symbol-to-display-org-mode-checkboxes/][Blog]]                | org-mode    |
 
 
 * Bootstrap & core
@@ -29,33 +31,33 @@
 Configures some user-related options:
 
 #+begin_src emacs-lisp
-(setq user-full-name "João Cláudio E. B."
-      user-mail-address "joaoclaudiobarcellos@gmail.com")
+  (setq user-full-name "João Cláudio E. B."
+        user-mail-address "joaoclaudiobarcellos@gmail.com")
 #+end_src
 
 ** Server
 Start Emacs' server:
 
 #+begin_src emacs-lisp
-(server-start)
+  (server-start)
 #+end_src
 
 ** Frame and startup behavior
 Configures the Emacs to open in fullscreen and skipping the startup screen:
 
 #+begin_src emacs-lisp
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
-(setq inhibit-startup-message t)
+  (add-to-list 'initial-frame-alist '(fullscreen . maximized))
+  (setq inhibit-startup-message t)
 #+end_src
 
 ** UI elements
 Disables some graphical elements: toolbar, menu bar, scroll bar, and tooltips:
 
 #+begin_src emacs-lisp
-(tool-bar-mode   -1)
-(menu-bar-mode   -1)
-(scroll-bar-mode -1)
-(tooltip-mode    -1)
+  (tool-bar-mode   -1)
+  (menu-bar-mode   -1)
+  (scroll-bar-mode -1)
+  (tooltip-mode    -1)
 #+end_src
 
 ** Line numbers and keybindings
@@ -63,13 +65,13 @@ Disables some graphical elements: toolbar, menu bar, scroll bar, and tooltips:
 Enables the display of line numbers:
 
 #+begin_src emacs-lisp
-(global-display-line-numbers-mode t)
+  (global-display-line-numbers-mode t)
 #+end_src
 
 Makes "ESC" quit prompts:
 
 #+begin_src emacs-lisp
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 #+end_src
 
 ** Visual alerts and spacing
@@ -77,13 +79,13 @@ Makes "ESC" quit prompts:
 Enables visual alerts:
 
 #+begin_src emacs-lisp
-(setq visible-bell t)
+  (setq visible-bell t)
 #+end_src
 
 Configures the border spacing:
 
 #+begin_src emacs-lisp
-(set-fringe-mode 5)
+  (set-fringe-mode 5)
 #+end_src
 
 ** Minor adjustments
@@ -91,8 +93,8 @@ Configures the border spacing:
 Disables the "C-z" command and allows the selected text to be replaced:
 
 #+begin_src emacs-lisp
-(global-unset-key (kbd "C-z"))
-(delete-selection-mode t)
+  (global-unset-key (kbd "C-z"))
+  (delete-selection-mode t)
 #+end_src
 
 ** Mouse and scrolling
@@ -100,10 +102,10 @@ Disables the "C-z" command and allows the selected text to be replaced:
 Configures mouse wheel behavior:
 
 #+begin_src emacs-lisp
-(setq mouse-wheel-scroll-amount '(2 ((shift) . 1))
-      mouse-wheel-progressive-speed nil
-      mouse-wheel-follow-mouse 't
-      scroll-step 1)
+  (setq mouse-wheel-scroll-amount '(2 ((shift) . 1))
+        mouse-wheel-progressive-speed nil
+        mouse-wheel-follow-mouse 't
+        scroll-step 1)
 #+end_src
 
 ** Backup files
@@ -111,7 +113,7 @@ Configures mouse wheel behavior:
 Configures the directory for the backup files:
 
 #+begin_src emacs-lisp
-(setq backup-directory-alist '(("" . "~/.emacs.d/emacs_backups")))
+  (setq backup-directory-alist '(("" . "~/.emacs.d/emacs_backups")))
 #+end_src
 
 ** Cursor
@@ -119,7 +121,7 @@ Configures the directory for the backup files:
 Defines cursor type:
 
 #+begin_src emacs-lisp
-(setq-default cursor-type 'box)
+  (setq-default cursor-type 'box)
 #+end_src
 
 ** Highlight current line
@@ -127,8 +129,8 @@ Defines cursor type:
 Adds text highlighting and configures it:
 
 #+begin_src emacs-lisp
-(global-hl-line-mode t)
-(set-face-attribute 'hl-line nil :inherit nil :background "#1E2224")
+  (global-hl-line-mode t)
+  (set-face-attribute 'hl-line nil :inherit nil :background "#1E2224")
 #+end_src
 
 ** Fonts
@@ -136,15 +138,15 @@ Adds text highlighting and configures it:
 Defines the text font:
 
 #+begin_src emacs-lisp
-(cond
- ((find-font (font-spec :name "Cascadia Code"))
-  (set-frame-font "Cascadia Code-10"))
- ((find-font (font-spec :name "Menlo"))
-  (set-frame-font "Menlo-10"))
- ((find-font (font-spec :name "DejaVu Sans Mono"))
-  (set-frame-font "DejaVu Sans Mono-10"))
- ((find-font (font-spec :name "Inconsolata"))
-  (set-frame-font "Inconsolata-10")))
+  (cond
+    ((find-font (font-spec :name "Cascadia Code"))
+    (set-frame-font "Cascadia Code-10"))
+   ((find-font (font-spec :name "Menlo"))
+    (set-frame-font "Menlo-10"))
+   ((find-font (font-spec :name "DejaVu Sans Mono"))
+    (set-frame-font "DejaVu Sans Mono-10"))
+   ((find-font (font-spec :name "Inconsolata"))
+    (set-frame-font "Inconsolata-10")))
 #+end_src
 
 ** Indentation
@@ -152,15 +154,15 @@ Defines the text font:
 Defines the indentation for different programming languages:
 
 #+begin_src emacs-lisp
-(setq-default indent-tabs-mode nil)        ; Use spaces for indentation
-(setq-default c-basic-offset 4)            ; C/C++
-(setq-default python-indent-offset 4)      ; Python
-(setq-default js-indent-level 2)           ; JavaScript/JSX
-(setq-default ruby-indent-level 2)         ; Ruby
-(setq-default lisp-indent-offset 2)        ; Lisp
-(setq-default sgml-basic-offset 2)         ; HTML
-(setq-default css-indent-offset 2)         ; CSS
-(setq-default sh-basic-offset 2)           ; Shell scripts
+  (setq-default indent-tabs-mode nil)        ; Use spaces for indentation
+  (setq-default c-basic-offset 4)            ; C/C++
+  (setq-default python-indent-offset 4)      ; Python
+  (setq-default js-indent-level 2)           ; JavaScript/JSX
+  (setq-default ruby-indent-level 2)         ; Ruby
+  (setq-default lisp-indent-offset 2)        ; Lisp
+  (setq-default sgml-basic-offset 2)         ; HTML
+  (setq-default css-indent-offset 2)         ; CSS
+  (setq-default sh-basic-offset 2)           ; Shell scripts
 #+end_src
 
 
@@ -197,12 +199,25 @@ Configures package:
 #+begin_src emacs-lisp
   (use-package package :ensure nil
     :config
-    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+    (setq package-archives
+      '(("melpa"        . "https://melpa.org/packages/")
+         ("melpa-stable" . "https://stable.melpa.org/packages/")
+         ("melpa-milkbox". "http://melpa.milkbox.net/packages/")
+         ("gnu"          . "https://elpa.gnu.org/packages/")))
     (package-initialize)
     (unless package-archive-contents
       (package-refresh-contents))
     :bind
     ("C-c u p" . package-refresh-contents))
+
+  ;; If installing new packages fails, the local MELPA archive cache may be stale.
+  ;; Remove the cached MELPA metadata:
+  ;;
+  ;;   rm -rf ~/.emacs.d/elpa/archives/melpa
+  ;;
+  ;; Then refresh the package list in Emacs:
+  ;;
+  ;;   M-x package-refresh-contents
 #+end_src
 
 ** outline (LaTeX)
@@ -317,6 +332,7 @@ Configures cl-lib:
 #+end_src
 
 
+
 * "External" packages
 
 ** treemacs
@@ -324,8 +340,7 @@ Configures cl-lib:
 Configures the treemacs:
 
 #+begin_src emacs-lisp
-  (use-package treemacs
-    :ensure t
+  (use-package treemacs :ensure t
     :defer t
     :init
     (with-eval-after-load 'winum
@@ -480,8 +495,7 @@ Configures ivy:
 ** grip-mode
 
 #+begin_src emacs-lisp
-  (use-package grip-mode
-    :ensure t
+  (use-package grip-mode :ensure t
     :commands grip-mode
     :config
     (setq grip-command 'grip))
@@ -524,35 +538,25 @@ Configures all-the-icons:
 Configures dashboard:
 
 #+begin_src emacs-lisp
-  ;; (defun my-dashboard-insert-banner ()
-  ;;   "Insert the ASCII banner with custom styling."
-  ;;   (when dashboard-startup-banner
-  ;;     (let ((lines (if (stringp dashboard-startup-banner)
-  ;;                    (with-temp-buffer
-  ;;                      (insert-file-contents dashboard-startup-banner)
-  ;;                      (split-string (buffer-string) "\n" t))
-  ;;                    (split-string dashboard-startup-banner "\n" t))))
-  ;;       (dolist (line lines)
-  ;;         (insert (propertize (concat line "\n")
-  ;;                   'face 'dashboard-text-banner))))))
-
   (use-package dashboard :ensure t
     :init
     ;; Configures which widgets are displayed.
-    (setq dashboard-items '((recents    . 2)
-                             ;; (bookmarks . 5)
-                             ;; (projects  . 5)
-                             (agenda    . 25)
+    (setq dashboard-items '((recents    . 6)
+                             (bookmarks . 2)
+                             (projects  . 2)
+                             ;; (agenda    . 25)
                              ;; (registers . 5)
-        			   ))
-    (setq dashboard-week-agenda nil)
+                             ))
+    ;; (setq dashboard-week-agenda nil)
+    ;; (setq dashboard-agenda-sort-strategy '(priority-up))
     ;; Configures the content placement
     (setq dashboard-center-content t)
     (setq dashboard-vertically-center-content t)
     ;; Configures the menu's banner and title
+    (setq dashboard-startup-banner "~/.emacs.d/logos/batata.png")
     ;; (setq dashboard-startup-banner "~/.emacs.d/logos/ascii_logo_1.txt")
     ;; (setq dashboard-startup-banner "~/.emacs.d/logos/ascii_logo_2.txt")
-    (setq dashboard-startup-banner "~/.emacs.d/logos/ascii_logo_3.txt")
+    ;; (setq dashboard-startup-banner "~/.emacs.d/logos/ascii_logo_3.txt")
     (setq dashboard-banner-logo-title "Welcome to the Potato-Verse.")
     ;; Defines the type of icons to be used
     (setq dashboard-icon-type 'all-the-icons)
@@ -571,7 +575,8 @@ Configures dashboard:
                                        dashboard-insert-init-info
                                        dashboard-insert-items
                                        dashboard-insert-newline
-                                       dashboard-insert-footer))
+                                       dashboard-insert-footer
+                                       joaoc/dashboard-insert-image-credit))
     ;; Configures the menu's items shortcuts
     (setq dashboard-item-shortcuts '((recents    . "r")
                                       (bookmarks . "m")
@@ -593,7 +598,6 @@ Configures dashboard:
              "Users' homepage"
              (lambda (&rest _) (browse-url "https://github.com/joaoclaudioeb"))))))
     :config
-    ;; (set-face-attribute 'dashboard-text-banner nil :height 0.6)
     (dashboard-setup-startup-hook)
     ;; (add-hook 'window-setup-hook #'treemacs 'append)
     )
@@ -604,51 +608,81 @@ Configures dashboard:
 Configures the theme:
 
 #+begin_src emacs-lisp
-  (defun load-my-theme (theme)
+  ;; MODUS-THEMES
+  (use-package modus-themes :ensure t
+    :config
+    (setq modus-themes-bold-constructs t
+      modus-themes-italic-constructs t))
+
+  ;; DOOM-THEMES
+  (use-package doom-themes :ensure t
+    :config
+    (setq doom-themes-enable-bold t
+      doom-themes-enable-italic t))
+
+  ;; ALMOST-MONO-THEMES
+  (use-package almost-mono-themes :ensure t)
+
+  ;; BASE16-THEMES
+  (use-package base16-theme :ensure t)
+
+  ;; GREY-PAPER-THEME
+  (use-package grey-paper-theme :ensure t)
+
+  (defun joaoc/load-my-theme (theme)
     (cond
-      ((eq theme 'modus-vivendi)
-        ;; Configures modus-themes
-        (use-package modus-themes :ensure t
-          :init
-          (setq modus-vivendi-palette-overrides
-            '((bg-main "#191919")
-               ;; (comment "#DFAF7A")
-               (comment "#FFA500")
-               (string "#2FAFFF")
-               (keyword "#70B900")
-               (name "#70B900")
-               (docstring "#DFAF7A")))
-          (setq modus-themes-bold-constructs t)
-          (setq modus-themes-italic-constructs t)
-          (setq modus-themes-mode-line '(accented))
-          (setq modus-themes-region '(bg-only))
-          (setq modus-themes-completions '(opinionated))
-          :config
-          (load-theme 'modus-vivendi t)))
-      ((eq theme 'doom-one) ; (TODO) Still needs some attention...
-        ;; Configures doom-themes
-        (use-package doom-themes :ensure t
-          :custom
-          ;; Global settings (defaults)
-          (doom-themes-enable-bold t)   ; if nil, bold is universally disabled
-          (doom-themes-enable-italic t) ; if nil, italics is universally disabled
-          ;; for treemacs users
-          (doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
-          :config
-          (load-theme 'doom-one t)
-
-          ;; Enable flashing mode-line on errors
-          (doom-themes-visual-bell-config)
-          ;; Enable custom neotree theme (nerd-icons must be installed!)
-          ;; (doom-themes-neotree-config)
-          ;; or for treemacs users
-          (doom-themes-treemacs-config)
-          ;; Corrects (and improves) org-mode's native fontification.
-          (doom-themes-org-config)))
-      (t
-        (error "Unknown theme: %s" theme))))
-
-  (load-my-theme 'modus-vivendi)
+      ;; Dark themes
+      ;; Doom
+      ((eq theme 'atom-one)         (load-theme 'doom-one              t))
+      ((eq theme 'ayu-dark)         (load-theme 'doom-ayu-dark         t))
+      ((eq theme 'challenger-deep)  (load-theme 'doom-challenger-deep  t))
+      ((eq theme 'dracula)          (load-theme 'doom-dracula          t))
+      ((eq theme 'gruvbox)          (load-theme 'doom-gruvbox          t))
+      ((eq theme 'zenburn)          (load-theme 'doom-zenburn          t))
+      ((eq theme 'tomorrow-night)   (load-theme 'doom-tomorrow-night   t))
+      ((eq theme 'snazzy)           (load-theme 'doom-snazzy           t))
+      ((eq theme 'rouge)            (load-theme 'doom-rouge            t))
+      ((eq theme 'miramare)         (load-theme 'doom-miramare         t))
+      ((eq theme 'lantern)          (load-theme 'doom-lantern          t))
+      ((eq theme 'fairy-floss)      (load-theme 'doom-fairy-floss      t))
+      ((eq theme 'ephemeral)        (load-theme 'doom-ephemeral        t))
+      ((eq theme 'horizon)          (load-theme 'doom-horizon          t))
+      ((eq theme 'meltbus)          (load-theme 'doom-meltbus          t))
+      ((eq theme 'molokai)          (load-theme 'doom-molokai          t))
+      ((eq theme 'nord)             (load-theme 'doom-nord             t))
+      ((eq theme 'oceanic-next)     (load-theme 'doom-oceanic-next     t))
+      ((eq theme 'palenight)        (load-theme 'doom-palenight        t))
+      ((eq theme 'solarized-dark)   (load-theme 'doom-solarized-dark   t))
+      ((eq theme 'tokyo-night)      (load-theme 'doom-tokyo-night      t))
+      ((eq theme 'wilmersdorf)      (load-theme 'doom-wilmersdorf      t))
+      ;; Base16
+      ((eq theme 'charcoal)         (load-theme 'base16-charcoal-light t))
+      ;; Modus (built-in)
+      ((eq theme 'modus-vivendi)    (load-theme 'modus-vivendi         t))
+      ;; Custom
+      ((eq theme 'my-modus-vivendi)
+        (setq modus-vivendi-palette-overrides '((bg-main   "#191919")
+                                                 (comment   "#FFA500")
+                                                 (string    "#2FAFFF")
+                                                 (keyword   "#70B900")
+                                                 (name      "#70B900")
+                                                 (docstring "#DFAF7A")))
+                                            (load-theme 'modus-vivendi t))
+      ;; Light themes
+      ;; Doom
+      ((eq theme 'ayu-light)        (load-theme 'doom-ayu-light        t))
+      ((eq theme 'gruvbox-light)    (load-theme 'doom-gruvbox-light    t))
+      ((eq theme 'nord-light)       (load-theme 'doom-nord-light       t))
+      ((eq theme 'solarized-light)  (load-theme 'doom-solarized-light  t))
+      ;; Almost Mono
+      ((eq theme 'cream)            (load-theme 'almost-mono-cream     t))
+      ;; Grey Paper
+      ((eq theme 'grey)             (load-theme 'grey-paper            t))
+      ;; Modus (built-in)
+      ((eq theme 'modus-operandi)   (load-theme 'modus-operandi        t))
+      
+      (t (error "Unknown theme: %s" theme))))
+  (joaoc/load-my-theme 'my-modus-vivendi)
 #+end_src
 
 ** company
@@ -686,8 +720,7 @@ Configures multiple-cursors:
 Configurações do auctex:
 
 #+begin_src emacs-lisp
-  (use-package auctex
-    :ensure t
+  (use-package auctex :ensure t
     :defer t
     :config
     (setq TeX-auto-save t)             ; Enable automatic parsing and saving of style information
@@ -718,8 +751,12 @@ Configurações do auctex:
     
     ;; Face for TODO/FIXME keywords (inherits warning style)
     (defface my-warning
-      '((t :inherit font-lock-warning-face :height 1.4))
+      '((t :foreground "red1" :background "red4" :weight bold :height 1.4))
       "Face for TODO, TBD, and FIXME keywords.")
+
+    (defface my-completion
+      '((t :foreground "green1" :background "green4" :weight bold :height 1.4))
+      "Face for DONE keyword.")
     
     ;; Prominent face for quad-percent comments (four or more `%`)
     (defface my-quad-percent-comment
@@ -737,13 +774,14 @@ Configurações do auctex:
       '(("\\(%%+.*\\)" 1 'my-double-percent-comment t)
          ("\\(%%%+.*\\)" 1 'my-triple-percent-comment t)
          ("\\(%%%%+.*\\)" 1 'my-quad-percent-comment t)
-         ("\\<\\(TODO\\|TBD\\|FIXME\\)\\>" 1 'my-warning t))))
+         ("\\<\\(DONE\\)\\>" 1 'my-completion t)
+         ("\\<\\(TODO\\|TBD\\|FIXME\\|OBS\\)\\>" 1 'my-warning t))))
 
   ;; This function calculates the indentation column for specific LaTeX environments.
   ;; It is designed to be used with `LaTeX-indent-environment-list`.
-  (defun mg-LaTeX-indent-level (type)
+  (defun joaoc/mg-LaTeX-indent-level (type)
     "Calculate indentation column for the current LaTeX environment.
-    TYPE is a regexp string expected to match the \\end{...} statement of the environment."
+      TYPE is a regexp string expected to match the \\end{...} statement of the environment."
     (cl-destructuring-bind
       (beg-pos . beg-col)
       (LaTeX-env-beginning-pos-col) ; Get the starting column of the current environment
@@ -761,9 +799,9 @@ Configurações do auctex:
     '(progn
        ;; Apply custom indentation function to 'longtblr' (from tabularray) and 'verbatim' environments.
        (add-to-list 'LaTeX-indent-environment-list
-         '("longtblr" (lambda () (mg-LaTeX-indent-level "\\\\end{longtblr}"))))
+         '("longtblr" (lambda () (joaoc/mg-LaTeX-indent-level "\\\\end{longtblr}"))))
        (add-to-list 'LaTeX-indent-environment-list
-         '("verbatim" (lambda () (mg-LaTeX-indent-level "\\\\end{verbatim}"))))))
+         '("verbatim" (lambda () (joaoc/mg-LaTeX-indent-level "\\\\end{verbatim}"))))))
 #+end_src
 
 ** vterm
@@ -776,7 +814,7 @@ Configures vterm:
     (setq vterm-always-compile-module t))
 #+end_src
 
-To work properly, it is indicated to install the libraries libtool-bin and libvterm-dev (on Debian, Ubuntu) or libvterm (on Arch, Fedora and others).
+To work properly, it is indicated to install the libraries libtool-bin and libvterm-dev (on Debian, Ubuntu) or libvterm (on Arch, Fedora and others). You will need to install the cmake and libtool libraries.
 
 ** indent-bars
 
@@ -800,8 +838,7 @@ Configures the indent-bars:
 Configures the yaml-mode:
 
 #+begin_src emacs-lisp
-  (use-package yaml-mode
-    :ensure t
+  (use-package yaml-mode :ensure t
     :mode ("\\.ya?ml\\'" . yaml-mode)
     :config
     ;; Configurações adicionais
@@ -811,12 +848,127 @@ Configures the yaml-mode:
                 (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
 #+end_src
 
+** org-mode
+
+#+begin_src emacs-lisp
+  (use-package org :ensure t
+    :config
+    (setq org-ellipsis " ⤵") ;; … ⤵ ▼ ⬎ _
+    (setq org-src-fontify-natively t) ;; Syntax highlighting in org src blocks
+    (setq org-highlight-latex-and-related '(native)) ;; Highlight inline LaTeX
+    (setq org-startup-folded t)
+    (setq org-image-actual-width 300)
+    (setq org-fontify-whole-heading-line t)
+    (setq org-pretty-entities t)
+    (custom-set-faces
+      '(org-document-title ((t (:height 1.6 :weight bold :slant italic))))
+      '(org-level-1 ((t (:height 1.3 :weight bold :slant italic))))
+      '(org-level-2 ((t (:height 1.1 :weight bold :slant italic))))
+      '(org-level-3 ((t (:height 1.0 :weight bold :slant italic)))))
+
+    (setq org-lowest-priority ?F)  ;; Gives us priorities A through F
+    (setq org-default-priority ?E) ;; If an item has no priority, it is considered [#E].
+
+    (setq org-priority-faces
+      '((65 . "red2")
+         (66 . "Gold1")
+         (67 . "Goldenrod2")
+         (68 . "PaleTurquoise3")
+         (69 . "DarkSlateGray4")
+         (70 . "PaleTurquoise4")))
+    ;; You could add an "@" to add a note, like CANCELLED(C@)
+    (setq org-todo-keywords '((type
+                                "TODO(t)" "WAITING(h)" "INPROG-TODO(i)" "WORK(w)"
+                                "STUDY(s)" "SOMEDAY" "READ(r)" "PROJ(p)" "CONTACT(c)"
+                                "|" "DONE(d)" "CANCELLED(C)")))
+    (setq org-todo-keyword-faces
+      '(("TODO" :background "#ff5f5f" :foreground "#191919" :weight bold)
+         ("WAITING" :background "#ffaf5f" :foreground "#191919" :weight bold)
+         ("INPROG-TODO" :background "#00d7ff" :foreground "#191919" :weight bold)
+         ("WORK" :background "#ffd75f" :foreground "#191919" :weight bold)
+         ("STUDY" :background "#d7ff5f" :foreground "#191919" :weight bold)
+         ("READ" :background "#ffff87" :foreground "#191919" :weight bold)
+         ("PROJ" :background "#af87ff" :foreground "#191919" :weight bold)
+         ("CONTACT" :background "#ff87d7" :foreground "#191919" :weight bold)
+         ("SOMEDAY" :background "#8787af" :foreground "#191919" :weight bold)
+         ("DONE" :background "#5fff87" :foreground "#191919" :weight bold)
+         ("CANCELLED" :background "#808080" :foreground "#191919" :weight bold)))
+
+    (setq org-agenda-deadline-leaders
+      '("" "" "%2d d. ago: ")
+      org-deadline-warning-days 0
+      org-agenda-span 4
+      org-agenda-start-day "-0d"
+      ;; org-agenda-start-on-weekday 1
+      org-agenda-skip-function-global '(org-agenda-skip-entry-if 'done)
+      org-log-done 'time
+      org-agenda-format-date (lambda (date) (concat
+                                              "\n"
+                                              (make-string 50 9472)
+                                              "\n"
+                                              (org-agenda-format-date-aligned date)
+                                              "\n"
+                                              (make-string 50 9472)
+                                              "\n"
+                                              )))
+    (custom-set-faces
+      '(org-agenda-date-today
+         ((t (:foreground "cyan"
+               :weight heavy
+               :slant normal
+               :height 1.3
+               :underline nil))))
+      '(org-agenda-date-weekend-today
+         ((t (:weight heavy
+               :slant normal
+               :height 1.3
+               :underline nil))))
+      '(org-agenda-date-weekend
+         ((t (:underline nil)))))
+
+    (defface org-checkbox-done-text
+      '((t (:foreground "#71696A" :strike-through t)))
+      "Face for the text part of a checked org-mode checkbox.")
+    (font-lock-add-keywords
+      'org-mode
+      '(("^[ \t]*\\(?:[-+*]\\|[0-9]+[).]\\)[ \t]+\\(\\(?:\\[@\\(?:start:\\)?[0-9]+\\][ \t]*\\)?\\[\\(?:X\\|\\([0-9]+\\)/\\2\\)\\][^\n]*\n\\)" 1 'org-checkbox-done-text prepend)) 'append))
+#+end_src
+
+Configures the org-inline-anim
+
+#+begin_src emacs-lisp
+  (use-package org-inline-anim :ensure t
+    :hook 
+    (org-mode . org-inline-anim-mode)
+    :config
+    (setq org-inline-anim-loop t))
+#+end_src
+
+Configures the org-modern
+
+#+begin_src emacs-lisp
+  (use-package org-modern :ensure t
+    :hook (org-mode . org-modern-mode)
+    :config
+    (setq
+      org-modern-star '("●" "○" "✸" "✿")
+      ;; org-modern-star '( "⌾" "✸" "◈" "◇")
+      ;; org-modern-star nil
+      org-modern-list '((42 . "◦") (43 . "•") (45 . "–"))
+      org-modern-tag nil
+      org-modern-priority nil
+      org-modern-timestamp nil
+      org-modern-todo nil
+      org-modern-table nil))
+#+end_src
+
 ** agenda
 
 Configures the agenda
 
 #+begin_src emacs-lisp
-  (setq org-agenda-files '("~/Documents/agenda/"))
+  (setq org-agenda-files '("~/Documents/agenda/"
+                            "~/Documents/agenda/exercices/"))
 
   (defface general-tag-face
     '((t (:foreground "#F78FE7")))
@@ -842,7 +994,7 @@ Configures the agenda
            :weight bold)))
     "Face for 'Obs.:' annotations in Org mode.")
 
-    (defface my-check-face
+  (defface my-check-face
     '((t (:foreground "green"
            :height 1.2
            :weight bold)))
@@ -856,13 +1008,6 @@ Configures the agenda
        ("urgent" . urgent-tag-face)
        ("todo" . todo-tag-face)))
 
-  (setq org-todo-keywords
-    '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CANCELED")))
-
-  (setq org-todo-keyword-faces
-    '(("TODO" . org-warning) ("IN-PROGRESS" . org-done) ("WAITING" . "orange")
-       ("CANCELED" . (:foreground "red" :weight bold))))
-
   (font-lock-add-keywords
     'org-mode
     '(("\\(Obs\\.:\\)" 1 'my-obs-face t)))
@@ -871,7 +1016,83 @@ Configures the agenda
     'org-mode
     '(("\\(\\[D\\]\\)" 1 'my-check-face t)))
 
-  (add-hook 'org-mode-hook 'visual-line-mode)
+  (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
+  (defun joaoc/org-visual-lines ()
+    "Enable visual line wrapping in Org buffers."
+    (visual-line-mode 1)
+    (setq-local truncate-lines nil))
+  (add-hook 'org-mode-hook #'joaoc/org-visual-lines)
+  (add-hook 'org-agenda-mode-hook #'joaoc/org-visual-lines)
+
+  (setq org-hide-emphasis-markers t)
+  (setq org-startup-with-inline-images t)
+  (setq image-animate-loop t)
+  (setq org-file-apps
+    '((auto-mode . emacs)
+       ("\\.gif\\'" . "xdg-open %s")
+       ("\\.mp4\\'" . "xdg-open %s")))
+#+end_src
+
+** report-generator
+
+Configures the "report generator"
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'ox-latex
+    (add-to-list 'org-latex-classes
+      '("tau"
+         "\\documentclass[9pt,a4paper,onecolumn,twoside]{tau-class/tau}
+  [NO-DEFAULT-PACKAGES]
+  [NO-PACKAGES]
+  [EXTRA]"
+         ("\\section{%s}" . "\\section*{%s}")
+         ("\\subsection{%s}" . "\\subsection*{%s}")
+         ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+
+    (setq org-latex-compiler "pdflatex")
+    (setq org-latex-title-command "")
+    (setq org-latex-listings 'listings)
+
+    (add-to-list 'org-latex-packages-alist '("" "listings"))
+
+    (setq org-latex-pdf-process
+      '("latexmk -pdf -shell-escape -output-directory=%o %f")))
+#+end_src
+
+#+begin_src emacs-lisp
+  (defun joaoc/org-insert-tau-template ()
+    "Insert a Tau Org template at point."
+    (interactive)
+    (insert
+      (concat
+        "#+LATEX_CLASS: tau\n"
+        "#+LATEX_COMPILER: pdflatex\n"
+        "#+OPTIONS: toc:nil title:nil author:nil date:nil\n"
+        "#+LANGUAGE: pt\n"
+        "\n"
+        "#+LATEX_HEADER: \\usepackage[portuguese]{babel}\n"
+        "#+LATEX_HEADER: \\usepackage{indentfirst}\n"
+        "#+LATEX_HEADER: \\usepackage{listings}\n"
+        "#+LATEX_HEADER: \\lstset{basicstyle=\\ttfamily\\small,breaklines=true,columns=fullflexible,keepspaces=true,frame=single}\n"
+        "\n"
+        "#+begin_export latex\n"
+        "\\journalname{Subtitle (UP)}\n"
+        "\\title{Title}\n"
+        "\\author{Carlos Porto}\n"
+        "\n"
+        "\\institution{UFSC}\n"
+        "\\footinfo{Carlos Freitas}\n"
+        "\\theday{\\today}\n"
+        "\\leadauthor{LAB N}\n"
+        "\\course{Subject}\n"
+        "\n"
+        "\\maketitle\n"
+        "\\thispagestyle{firststyle}\n"
+        "#+end_export\n"
+        "\n")))
+
+  (with-eval-after-load 'org
+    (define-key org-mode-map (kbd "C-c X") #'joaoc/org-insert-tau-template))
 #+end_src
 
 ** eshell
@@ -879,10 +1100,6 @@ Configures the agenda
 Configures the eshell
 
 #+begin_src emacs-lisp
-  ;; (use-package pyvenv
-  ;;   :ensure t
-  ;;   :hook (eshell-mode . pyvenv-mode))
-
   (add-hook 'eshell-mode-hook (lambda ()
                                 (setenv "TERM" "xterm-256color")
                                 (eshell/alias "e" "find-file $1")
@@ -912,9 +1129,6 @@ Configures the eshell
         (propertize "]\n" 'face 'font-lock-comment-face)
         (propertize "└─>" 'face 'font-lock-comment-face)
         (propertize (if (= (user-uid) 0) " # " " $ ") 'face 'font-lock-comment-face)
-        ;; (if pyvenv-virtual-env-name
-        ;;   (propertize (concat " (" pyvenv-virtual-env-name ")") 'face 'font-lock-keyword-face)
-        ;;   (propertize "" 'face 'font-lock-keyword-face))
         (if (magit-get-current-branch)
           (propertize (concat "(" (magit-get-current-branch) ") ") 'face 'font-lock-keyword-face)
           (propertize "" 'face 'font-lock-keyword-face))
@@ -924,13 +1138,180 @@ Configures the eshell
 
 (setq-default truncate-lines nil)
 
+** dumb-jump
 
-* Custom buffers
+Configures the dump-jump
+
+#+begin_src emacs-lisp
+  (use-package dumb-jump :ensure t
+    :custom
+    (dumb-jump-prefer-searcher 'rg)
+    :config
+    (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+
+    (dolist (hook '(c-mode-hook
+                     c++-mode-hook
+                     python-mode-hook
+                     cmake-mode-hook
+                     asm-mode-hook
+                     sh-mode-hook
+                     makefile-mode-hook))
+      (add-hook hook #'dumb-jump-local-mode)))
+
+  (defun joaoc/run-authoheaders ()
+    (interactive)
+    (when (buffer-file-name)
+      (save-buffer)
+      (let* ((src (buffer-file-name))
+              (out (concat (file-name-sans-extension src) ".h")))
+        (shell-command
+          (format "authoheaders -o %s %s"
+            (shell-quote-argument out)
+            (shell-quote-argument src)))
+        (message "Generated: %s" out))))
+
+  (global-set-key (kbd "M-o h") #'joaoc/run-authoheaders)
+#+end_src
+
+** fold-this
+
+Configures the fold-this
+
+#+begin_src emacs-lisp
+  ;; (use-package fold-this
+  ;;   :ensure t
+  ;;   :config
+  ;;   (global-set-key (kbd "C-c i") 'fold-this-all)
+  ;;   (global-set-key (kbd "C-c o") 'fold-this)
+  ;;   (global-set-key (kbd "C-c p") 'fold-this-unfold-all))
+#+end_src
+
+** kirigami
+
+Configures the kirigami
+
+#+begin_src emacs-lisp
+  (use-package kirigami :ensure t
+    :bind
+    (("C-c z a" . kirigami-toggle-fold)       ;; toggle fold at point
+      ("C-c z c" . kirigami-close-fold)       ;; close fold at point
+      ("C-c z o" . kirigami-open-fold)        ;; open fold at point
+      ("C-c z O" . kirigami-open-fold-rec)    ;; open recursively
+      ("C-c z m" . kirigami-close-folds)      ;; close all folds
+      ("C-c z r" . kirigami-open-folds))      ;; open all folds
+    :custom
+
+    (kirigami-preserve-visual-position t))
+
+  (use-package outline-indent :ensure t
+    :commands outline-indent-minor-mode
+    :custom
+    (outline-indent-ellipsis " ..."))
+
+  (add-hook 'python-mode-hook #'outline-indent-minor-mode)
+  (add-hook 'python-ts-mode-hook #'outline-indent-minor-mode)
+
+  (setq-default search-invisible nil)
+#+end_src
+
+** evil
+Configures the evil
+
+#+begin_src emacs-lisp
+  (use-package evil :ensure t
+    :init
+    (setq evil-want-keybinding nil) ;; don't load Evil keybindings in other modes
+    (setq evil-want-fine-undo t)
+    (setq evil-want-Y-yank-to-eol t)
+    :config
+
+    (evil-set-initial-state 'dashboard-mode 'motion)
+    (evil-set-initial-state 'debugger-mode 'motion)
+    (evil-set-initial-state 'pdf-view-mode 'motion)
+    (evil-set-initial-state 'bufler-list-mode 'emacs)
+    (evil-set-initial-state 'inferior-python-mode 'emacs)
+    (evil-set-initial-state 'term-mode 'emacs)
+    (evil-set-initial-state 'calc-mode 'emacs)
+
+    ;; ----- Keybindings
+    ;; I tried using evil-define-key for these. Didn't work.
+    (define-key evil-window-map "\C-q" 'evil-delete-buffer) ;; Maps C-w C-q to evil-delete-buffer (The first C-w puts you into evil-window-map)
+    (define-key evil-window-map "\C-w" 'kill-this-buffer)
+    (define-key evil-motion-state-map "\C-b" 'evil-scroll-up) ;; Makes C-b how C-u is
+    (define-key evil-motion-state-map [?\s-\\] 'evil-execute-in-emacs-state) ;; `super-\', by default it's just `\'
+
+    ;; ----- Setting cursor colors
+    (setq evil-emacs-state-cursor    '("#649bce" box))
+    (setq evil-normal-state-cursor   '("#d9a871" box))
+    (setq evil-operator-state-cursor '("#ebcb8b" hollow))
+    (setq evil-visual-state-cursor   '("#677691" box))
+    (setq evil-insert-state-cursor   '("#eb998b" (bar . 2)))
+    (setq evil-replace-state-cursor  '("#eb998b" hbar))
+    (setq evil-motion-state-cursor   '("#ad8beb" box))
+
+    (evil-mode 1))
+
+  (use-package evil-surround :ensure t
+    :after evil
+    :defer 2
+    :config
+    (global-evil-surround-mode 1))
+
+  (use-package evil-collection :ensure t
+    :after evil)
+  (evil-define-key 'motion help-mode-map "q" 'kill-this-buffer)
+  (evil-define-key 'motion calendar-mode-map "q" 'kill-this-buffer)
+#+end_src
+
+** bitbake
+
+Configures the bitbake
+
+#+begin_src emacs-lisp
+  (use-package bitbake :ensure t)
+#+end_src
+
+** dts-mode
+
+Configures the dts-mode
+
+#+begin_src emacs-lisp
+  (use-package dts-mode :ensure t)
+#+end_src
+
+** markdown-mode
+
+Configures the markdown-mode 
+
+#+begin_src emacs-lisp
+  (use-package markdown-mode :ensure t
+    :mode ("README\\.md\\'" . gfm-mode)
+    :init (setq markdown-command "multimarkdown")
+    :bind (:map markdown-mode-map
+            ("C-c C-e" . markdown-do)))
+#+end_src
+
+** vimish-fold
+
+Configure the vimish-fold
+
+#+begin_src emacs-lisp
+  (use-package vimish-fold
+    :ensure t
+    :config
+    (vimish-fold-global-mode 1)
+    :bind (("C-c f f" . vimish-fold)         ; fold active region
+            ("C-c f t" . vimish-fold-toggle)
+            ("C-c f d" . vimish-fold-delete)))
+#+end_src
+
+
+* Custom stuff
 
 ** my-buffers
 
 #+begin_src emacs-lisp
-  (defun my-show-help-buffer ()
+  (defun joaoc/my-show-help-buffer ()
     (interactive)
     (with-help-window "*You idiot...*"
       (insert "Emacs - Comandos Úteis\n\n")
@@ -975,4 +1356,58 @@ Configures the eshell
       (insert "C-x t t          Toggle sidebar view \n\n")
 
       (insert "Pressione 'q' para fechar este painel.\n")))
+#+end_src
+
+** my-functions
+
+#+begin_src emacs-lisp
+  (defun joaoc/open-worspace ()
+    (interactive)
+    (split-window-below 40)
+    (other-window 1)
+    (eshell) ;; Opens the terminal
+    (other-window 1)
+
+    (split-window-right 95)
+    (other-window 1)
+    (let ((org-agenda-window-setup 'current-window))
+      (org-agenda-list)) ;; Opens org-agenda
+    (other-window 2)
+    )
+
+  (global-set-key (kbd "C-c a") #'joaoc/open-worspace)
+#+end_src
+
+#+begin_src emacs-lisp
+  (defun joaoc/animate-gifs-on-startup ()
+    "Animate all GIFs when #+STARTUP: animateall is present."
+    (interactive)
+    (org-inline-anim-animate-all))
+
+  (global-set-key (kbd "C-c C-g") #'joaoc/animate-gifs-on-startup)
+#+end_src
+
+#+begin_src emacs-lisp
+  (defun joaoc/dashboard-insert-image-credit ()
+    (insert "\n")
+    (insert "\n")
+    (dashboard-insert-center
+      (propertize
+        "Banner artwork by Paulo Scabeni, used with permission. © Paulo Scabeni. All rights reserved."
+        'face 'shadow))
+    (insert "\n")
+    (dashboard-insert-center
+      (propertize
+        "Portfolio: https://www.artstation.com/pauloscabeni"
+        'face 'shadow))
+    (insert "\n"))
+#+end_src
+
+#+begin_src emacs-lisp
+  (defun joaoc/open-config-file ()
+    "Open my Emacs init file."
+    (interactive)
+    (find-file "~/.emacs.d/config.org"))
+
+  (global-set-key (kbd "C-c t") #'joaoc/open-config-file)
 #+end_src
