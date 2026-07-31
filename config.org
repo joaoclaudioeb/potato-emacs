@@ -1305,6 +1305,21 @@ Configure the vimish-fold
             ("C-c f d" . vimish-fold-delete)))
 #+end_src
 
+** nix-ts-mode
+
+Configure the vimish-fold
+
+#+begin_src emacs-lisp
+  (use-package treesit-auto :ensure t
+    :custom
+    (treesit-auto-install t)
+    :config
+    (global-treesit-auto-mode))
+  
+  (use-package nix-ts-mode :ensure t
+    :mode "\\.nix\\'")
+#+end_src
+
 
 * Custom stuff
 
