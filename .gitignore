@@ -1,87 +1,45 @@
-# -*- mode: gitignore; -*-
+# Dotfiles
+.*
+!.gitignore
+!/.github
+
+# User-config files
+/*.el
+!/early-init.el
+!/init.el
+
+# Automatically generated folders/files
+\#*
 *~
-\#*\#
-/.emacs.desktop
-/.emacs.desktop.lock
+*.*~
+*.cache*
+*.log
 *.elc
-auto-save-list
-tramp
-.\#*
-
-# org-mode
-.org-id-locations
-*_archive
-
-# flymake-mode
-*_flymake.*
-
-# eshell files
-/eshell/history
-/eshell/lastdir
-
-# elpa packages
-/elpa/
-
-# reftex files
-*.rel
-
-# auctex auto folder
-/auto/
-
-# cask packages
-.cask/
-dist/
-
-# flycheck
-flycheck_*.el
-
-# server auth directory
-/server/
-
-# projectiles files
-.projectile
-
-# directory configuration
-.dir-locals.el
-
-# network security
-/network-security.data
-
-# undo-tree
-*.~undo-tree~
-
-## additional auto-generated files
-.mc-lists.el
-ede-projects.el
-srecode-map.el
-semanticdb/
-tree-sitter/
-vimish-fold/
-*.swp
-*.swo
 *.eln
+*.lib
+*.fas
+*.dat
+*.eld
+*.rel
+*_archive
+*_flymake.*
+flycheck_*.el
+/auto/
+/auto-save-list/
+/cask/
+/ede-projects.el
 /eln-cache/
-.session.*
-*.session
-recentf
-.recentf
-saveplace
-.saveplace
-bookmarks
-.bookmarks
-*history
-*hist
-persp-confs/
-persp-auto-save
-workgroups.el
-workgroups
-eproject.el
-.projectile-bookmarks.eld
-helm-files
-helm-bookmarks
-ivy-history
-.counsel*
-.cache/
-config.el
-custom.el
-eshell/
+/elpa/
+/eshell/
+/network-security.data
+/places
+/semanticdb
+/server/
+/smex-items
+/tramp
+/transient/
+/var/shell/
+/vimish-fold/
+/tree-sitter/
+/recentf
+/bookmarks
